@@ -8,13 +8,15 @@ import java.util.List;
  */
 
 public class NewsStore {
-    public static List<NewsArticle> newsArticle = new ArrayList<>();
+    public static List<Article> newsArticles = new ArrayList<>();
 
-    public static List<NewsArticle> getNewsArticle() {
-        return newsArticle;
+    public static List<Article> getNewsArticles() {
+        return newsArticles;
     }
 
-    public static void setNewsArticle(List<NewsArticle> newsArticle) {
-        NewsStore.newsArticle = newsArticle;
+    public static void setArticle(List<Article> newsArticles) {
+        NewsStore.newsArticles = newsArticles;
     }
+
+
 }

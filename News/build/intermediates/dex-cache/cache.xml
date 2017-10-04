@@ -12,21 +12,21 @@
     </item>
     <item
         is-multidex="false"
-        jar="/home/sudhanshu/Android/Sdk/extras/m2repository/com/android/support/constraint/constraint-layout-solver/1.0.2/constraint-layout-solver-1.0.2.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
-        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/constraint-layout-solver-1.0.2_68bc82da281853646f17e2a4d08f7bfbaadf184a.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="/home/sudhanshu/.android/build-cache/a84f31d8f9e3979d4a5cc84d2fea66d3979d8a2a/output/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="26.0.1"
         sha1="18d31838aa4fcc768a8a0516e22cc13b94655d89">
         <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/classes_01055e15bfb8192c1cfaadf8594adba8c3d05595.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.8.2/3edcfe49d2c6053a70a2a47e4e1c2f94998a49cf/gson-2.8.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="3edcfe49d2c6053a70a2a47e4e1c2f94998a49cf">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/gson-2.8.2_656a286a5b096dba8bb9a3ba68acb211bbbbafbc.jar" />
     </item>
     <item
         is-multidex="false"
@@ -88,7 +88,7 @@
         jumboMode="true"
         optimize="true"
         revision="26.0.1"
-        sha1="b381ec1b2d5ebc04a5a1f1d65db10fb477bdc8a7">
+        sha1="ebe4d977d6a9cbaaeb06d7c5cf8fc5f5be0706df">
         <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_03b277cad53faa18a98df4d63bd3272dacf312b4/classes.dex" />
     </item>
     <item
@@ -108,6 +108,24 @@
         revision="26.0.1"
         sha1="47c487cc4e64e6ab127a517669ca9a7b49f8c61d">
         <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/gifdecoder-4.0.0_61754978fe048260cba6b9f8454a1b0adafeb557.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.8.0/5a11f020cce2d11eb71ba916700600e18c4547e7/okhttp-3.8.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="5a11f020cce2d11eb71ba916700600e18c4547e7">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/okhttp-3.8.0_30fffca8e002bd72b992c92c8d275f32f4355c19.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/converter-gson/2.3.0/9e09011e9767bb76b5e27c9b8223476b93b14631/converter-gson-2.3.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="9e09011e9767bb76b5e27c9b8223476b93b14631">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/converter-gson-2.3.0_38034153d29564896eb35716af84c89395c5b1ca.jar" />
     </item>
     <item
         is-multidex="false"
@@ -146,22 +164,13 @@
         <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/classes_2876e3af9a5e9dc5e7aa155021ecadc5678744b0.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/home/sudhanshu/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.8.2/3edcfe49d2c6053a70a2a47e4e1c2f94998a49cf/gson-2.8.2.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.1"
-        sha1="3edcfe49d2c6053a70a2a47e4e1c2f94998a49cf">
-        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/transforms/dex/debug/folders/1000/10/gson-2.8.2_656a286a5b096dba8bb9a3ba68acb211bbbbafbc/classes.dex" />
-    </item>
-    <item
         is-multidex="false"
-        jar="/home/sudhanshu/.android/build-cache/61f638b2dd4cbc381bbcd9dda2a3840f56d44455/output/jars/classes.jar"
+        jar="/home/sudhanshu/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/retrofit/2.3.0/bcacde6a8ccedcc56c127403d26b76072fe6214d/retrofit-2.3.0.jar"
         jumboMode="false"
         optimize="true"
         revision="26.0.1"
-        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
-        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/classes_dbe3f2f795fcb9658616036babc06ae574ce6dc9.jar" />
+        sha1="bcacde6a8ccedcc56c127403d26b76072fe6214d">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/retrofit-2.3.0_807ba27fd166183381e54f8ce92d04340002e57c.jar" />
     </item>
     <item
         is-multidex="false"
@@ -180,6 +189,15 @@
         revision="26.0.1"
         sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
         <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/classes_93989cdb5730b9e74fc19cc78382e6bbbda0b0cf.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.13.0/a9283170b7305c8d92d25aff02a6ab7e45d06cbe/okio-1.13.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="a9283170b7305c8d92d25aff02a6ab7e45d06cbe">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/okio-1.13.0_833a5410af54db8cb5afd078532364bfa459d5ac.jar" />
     </item>
     <item
         is-multidex="false"

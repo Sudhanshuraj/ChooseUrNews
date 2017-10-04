@@ -1,6 +1,8 @@
 package cc.valyriansteelers.news;
 
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.support.v7.widget.helper.ItemTouchUIUtil;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,20 +12,23 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+
 import org.w3c.dom.Text;
 
 import java.util.List;
 
-import cc.valyriansteelers.news.model.NewsArticle;
+import cc.valyriansteelers.news.model.Article;
 
 /**
  * Created by sudhanshu on 28/9/17.
  */
 
-public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.HomeNewsViewHolder>{
-    private List<NewsArticle> newsArticles;
 
-    public HomeNewsAdapter(List<NewsArticle> newsArticles) {
+
+public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.HomeNewsViewHolder>{
+    private List<Article> newsArticles;
+
+    public HomeNewsAdapter(List<Article> newsArticles) {
         this.newsArticles = newsArticles;
     }
 
@@ -38,19 +43,21 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.HomeNe
     public void onBindViewHolder(HomeNewsViewHolder holder, final int position) {
         RequestOptions options = new RequestOptions();
         options.centerCrop();
-        NewsArticle newsArticle = newsArticles.get(position);
-        Glide.with(holder.cardImageView.getContext()).load(newsArticle.getImageUrl())
+        Article newsArticle = newsArticles.get(position);
+        Glide.with(holder.cardImageView.getContext()).load(newsArticle.getUrlToImage())
                 .apply(options)
                 .into(holder.cardImageView);
         holder.cardTitleTextView.setText(newsArticle.getTitle());
-        holder.cardTimeTextView.setText(newsArticle.getTime());
-        holder.cardDetailsTextView.setText(newsArticle.getDetails());
+        holder.cardTimeTextView.setText(newsArticle.getPublishedAt());
+        holder.cardDetailsTextView.setText(newsArticle.getDescription());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NewsDetailsActivity.launch(view.getContext(), position);
+
             }
         });
+
 
 
 
@@ -79,3 +86,5 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.HomeNe
         }
     }
 }
+
+

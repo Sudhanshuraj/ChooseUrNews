@@ -1,4 +1,5 @@
-<android.support.v7.widget.CardView android:layout_width="match_parent"
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -55,10 +56,12 @@
             android:layout_marginRight="16dp"
             android:layout_marginBottom="20dp"
             android:maxLines="4"
-            tools:text="This is description \nThis is description This is description This is description This is description This is description This is description This is description This is description This is description This is description This is description This is description " />
+            tools:text="This is description \nThis is description " />
 
 
     </LinearLayout>
+
+
 
 
 </android.support.v7.widget.CardView>
