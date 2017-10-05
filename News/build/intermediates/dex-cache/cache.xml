@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.android/build-cache/c04398f507f49ac934eb7fe84e6347a302ac3f8d/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="2e92aa0163544a804a0b34f169ca61801770839a">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/classes_ed86f4f46494da1edfb8a874c21fc00597075fb8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.android/build-cache/a84f31d8f9e3979d4a5cc84d2fea66d3979d8a2a/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="18d31838aa4fcc768a8a0516e22cc13b94655d89">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/classes_01055e15bfb8192c1cfaadf8594adba8c3d05595.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.8.2/3edcfe49d2c6053a70a2a47e4e1c2f94998a49cf/gson-2.8.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="3edcfe49d2c6053a70a2a47e4e1c2f94998a49cf">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/gson-2.8.2_656a286a5b096dba8bb9a3ba68acb211bbbbafbc.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.android/build-cache/c281928ea90d2de6ce7acf1cb296ea4762a46a7a/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="9935891f23923f39d002087085d9696568a9f657">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/classes_1782468d557d741ba39d3418ad25ce4a077f0b3c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.android/build-cache/ecfbe8fcb83ed505eece2b6d6f45896ab7d329c0/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="952944218ecedea1554a513dec0c14d570642843">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/classes_7029b51a0076ace64ee2427c7ca1baf16b21833d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/disklrucache/4.0.0/d88059003509074dd59fa226c822724bcf5ec0ca/disklrucache-4.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="d88059003509074dd59fa226c822724bcf5ec0ca">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/disklrucache-4.0.0_fb35ed559f4dd835a9d7294baaa346e1cdf182e7.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/26.0.0-alpha1/support-annotations-26.0.0-alpha1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="023ee503b631f69511e335a061ea008f8da60f40">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/support-annotations-26.0.0-alpha1_5a05f2537db15eed0d7163f573ad88b9be843396.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.android/build-cache/a0324b53350b1d95423e108a890bf541240d1699/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="8df0e365e40beb151bc42dee20817721a6cab7b0">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/classes_708a082922c9076ca891f5e543dc18a37c2dd52a.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_d2d204f7f20771d91663710f4f43e57a86506b38/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="ebe4d977d6a9cbaaeb06d7c5cf8fc5f5be0706df">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_03b277cad53faa18a98df4d63bd3272dacf312b4/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/annotations/4.0.0/f80192e6fd828d41c7da6f3552b0bef5d89cb26e/annotations-4.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="f80192e6fd828d41c7da6f3552b0bef5d89cb26e">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/annotations-4.0.0_bd5c7c2bb2f0a01b703584849fe4eaed1de1a492.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/gifdecoder/4.0.0/47c487cc4e64e6ab127a517669ca9a7b49f8c61d/gifdecoder-4.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="47c487cc4e64e6ab127a517669ca9a7b49f8c61d">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/gifdecoder-4.0.0_61754978fe048260cba6b9f8454a1b0adafeb557.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.8.0/5a11f020cce2d11eb71ba916700600e18c4547e7/okhttp-3.8.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="5a11f020cce2d11eb71ba916700600e18c4547e7">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/okhttp-3.8.0_30fffca8e002bd72b992c92c8d275f32f4355c19.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/converter-gson/2.3.0/9e09011e9767bb76b5e27c9b8223476b93b14631/converter-gson-2.3.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="9e09011e9767bb76b5e27c9b8223476b93b14631">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/converter-gson-2.3.0_38034153d29564896eb35716af84c89395c5b1ca.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/glide/4.0.0/dff931af436f0a2815d0109ab2258bbce2d6275d/glide-4.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="dff931af436f0a2815d0109ab2258bbce2d6275d">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/glide-4.0.0_f33b4cec9cba3484d3860e6593c592af2b666eae.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.android/build-cache/f6c0a3f46f37df5d5da9c1dfb8e8a1d11b07a3de/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="fcd01fd11233459f546c437ec927e9b61bf7caf1">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/classes_27f69864275755eab3294cc3d43dc8712ec1f385.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.android/build-cache/71fab87a702d9567ba94ad68d253cbef61697ac0/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="47471eb19df288158b00b8d9cfa41bce7373f5cc">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/classes_391844576082ff8be23fbdad38efc0e2f538f16f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.android/build-cache/17ffb99604bd6c1357fb9ca2865f41dad1a9d19b/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="e176fd06c2ad5b50a2f5cb4de6000a83a7cb48f5">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/classes_2876e3af9a5e9dc5e7aa155021ecadc5678744b0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/retrofit/2.3.0/bcacde6a8ccedcc56c127403d26b76072fe6214d/retrofit-2.3.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="bcacde6a8ccedcc56c127403d26b76072fe6214d">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/retrofit-2.3.0_807ba27fd166183381e54f8ce92d04340002e57c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.android/build-cache/258478e309dad52d066865095fed673e03a897d1/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="88246166d5afb106f532f6e6deae683c66b42c89">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/classes_e68566fefb790a1494b7a0527c1e412fcda5b4a1.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.android/build-cache/838e336bfaf4471f9d3084c2efe6542053fcda67/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/classes_93989cdb5730b9e74fc19cc78382e6bbbda0b0cf.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.13.0/a9283170b7305c8d92d25aff02a6ab7e45d06cbe/okio-1.13.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="a9283170b7305c8d92d25aff02a6ab7e45d06cbe">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/okio-1.13.0_833a5410af54db8cb5afd078532364bfa459d5ac.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.android/build-cache/f8fd50dc7dc7467a8e1d6693ee2c8bf4018957b2/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="fb5addcf29ec0f677346aa9f740c7d56f457a6d9">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/classes_e13a24859ecb4f4fde9626d34521fca27e3b14ff.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/sudhanshu/.android/build-cache/40298eccd6c7d1b7d09851abee37721d46c03bc1/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="c4f45092eee6cdf1a5dbd597b2b6819be652ce2e">
+        <dex dex="/home/sudhanshu/AndroidStudioProjects/News/app/build/intermediates/pre-dexed/debug/classes_7452193585be5bfc8c88c60399ad1f667f7264a3.jar" />
+    </item>
+
+</items>
