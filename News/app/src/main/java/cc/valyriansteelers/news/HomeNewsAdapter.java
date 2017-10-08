@@ -15,6 +15,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cc.valyriansteelers.news.model.Article;
@@ -27,11 +28,14 @@ import cc.valyriansteelers.news.model.Article;
 
 public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.HomeNewsViewHolder>{
     private List<Article> newsArticles;
+    public HomeNewsAdapter(){
+        newsArticles= new ArrayList<Article>();
+    }
 
     public HomeNewsAdapter(List<Article> newsArticles) {
         this.newsArticles = newsArticles;
     }
-
+    public void addHomeNewsAdapter(List<Article> newsArticles){this.newsArticles.addAll(newsArticles);}
     @Override
     public HomeNewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_news, parent,false);
@@ -57,8 +61,6 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.HomeNe
 
             }
         });
-
-
 
 
 

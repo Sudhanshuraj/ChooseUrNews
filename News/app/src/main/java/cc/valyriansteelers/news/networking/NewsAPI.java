@@ -18,7 +18,7 @@ public class NewsAPI {
     public static final String APIPATH = "https://newsapi.org/v1/";
 
     public static NewsService newsService = null;
-
+    public static NewsService newsService2 = null;
     public static NewsService getApi(){
         if (newsService == null){
             Retrofit retrofit = new Retrofit.Builder()
@@ -27,16 +27,26 @@ public class NewsAPI {
                     .build();
             newsService = retrofit.create(NewsService.class);
         }
+
         return newsService;
+
+    }
+    public static NewsService gettApi(){
+        if (newsService2 == null){
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(APIPATH)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            newsService2 = retrofit.create(NewsService.class);
+        }
+
+        return newsService2;
 
     }
 
     public interface NewsService {
         @GET("articles?apiKey=" + APIKEY)
         Call<ArticlesResponse> getArticles(@Query("source") String source, @Query("sortBy") String sortBy);
-
-
-
-
     }
+
 }

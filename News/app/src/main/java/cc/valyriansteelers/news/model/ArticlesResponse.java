@@ -52,5 +52,6 @@ public class ArticlesResponse {
     public void setArticles(List<Article> articles) {
         this.articles = articles;
     }
+    public void addArticles(List<Article> articles){this.articles.addAll(articles);}
 
 }

@@ -17,6 +17,12 @@ public class NewsStore {
     public static void setArticle(List<Article> newsArticles) {
         NewsStore.newsArticles = newsArticles;
     }
+    public static void addArticle(List<Article> newsArtticles){
+       // for (int i = 0; i < newsArtticles.size(); i++) {
+         //   NewsStore.newsArticles.add(i,newsArtticles.get(i));
+        //}
+        NewsStore.newsArticles.addAll(newsArtticles);
+    }
 
 
 }

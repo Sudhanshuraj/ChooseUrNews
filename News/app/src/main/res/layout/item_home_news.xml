@@ -26,6 +26,8 @@
 
         </android.support.percent.PercentRelativeLayout>
 
+
+
         <TextView
             android:id="@+id/news_title"
             android:layout_width="match_parent"
@@ -34,7 +36,7 @@
             android:layout_marginTop="18dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:maxLines="1"
+
             tools:text="Title" />
         <TextView
             android:id="@+id/news_time"
@@ -57,6 +59,14 @@
             android:layout_marginBottom="20dp"
             android:maxLines="4"
             tools:text="This is description \nThis is description " />
+        <Button
+            android:id="@+id/menu_item_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-5dp"
+            android:layout_marginLeft="130dp"
+            android:text="Share"
+            />
 
 
     </LinearLayout>
