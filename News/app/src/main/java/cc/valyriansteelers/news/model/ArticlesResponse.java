@@ -1,6 +1,8 @@
 
 package cc.valyriansteelers.news.model;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -19,7 +21,7 @@ public class ArticlesResponse {
     private String sortBy;
     @SerializedName("articles")
     @Expose
-    private List<Article> articles = null;
+    private ArrayList<Article> articles = null;
 
     public String getStatus() {
         return status;
@@ -45,13 +47,13 @@ public class ArticlesResponse {
         this.sortBy = sortBy;
     }
 
-    public List<Article> getArticles() {
+    public ArrayList<Article> getArticles() {
         return articles;
     }
 
-    public void setArticles(List<Article> articles) {
+    public void setArticles(ArrayList<Article> articles) {
         this.articles = articles;
     }
-    public void addArticles(List<Article> articles){this.articles.addAll(articles);}
+   // public void addArticles(ArrayList<Article> articles){this.articles.addAll(articles);}
 
 }

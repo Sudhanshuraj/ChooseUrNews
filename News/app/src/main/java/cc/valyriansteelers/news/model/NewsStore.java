@@ -1,5 +1,7 @@
 package cc.valyriansteelers.news.model;
 
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +20,14 @@ public class NewsStore {
         NewsStore.newsArticles = newsArticles;
     }
     public static void addArticle(List<Article> newsArtticles){
-       // for (int i = 0; i < newsArtticles.size(); i++) {
-         //   NewsStore.newsArticles.add(i,newsArtticles.get(i));
-        //}
-        NewsStore.newsArticles.addAll(newsArtticles);
+        for (int i = 0; i < newsArtticles.size(); i++) {
+            int ind=newsArticles.indexOf(newsArtticles.get(i));
+            //if(newsArticles.contains(newsArtticles.get(i)))
+              if(ind==-1)
+           NewsStore.newsArticles.add(newsArtticles.get(i));
+
+        }
+        //NewsStore.newsArticles.addAll(newsArtticles);
     }
 
 

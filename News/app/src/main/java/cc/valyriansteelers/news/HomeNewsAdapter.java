@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cc.valyriansteelers.news.model.Article;
+import cc.valyriansteelers.news.util.DateUtils;
 
 /**
  * Created by sudhanshu on 28/9/17.
@@ -27,15 +28,25 @@ import cc.valyriansteelers.news.model.Article;
 
 
 public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.HomeNewsViewHolder>{
-    private List<Article> newsArticles;
+    private ArrayList<Article> newsArticles;
     public HomeNewsAdapter(){
-        newsArticles= new ArrayList<Article>();
+        this.newsArticles= new ArrayList<Article>();
     }
 
-    public HomeNewsAdapter(List<Article> newsArticles) {
+    public HomeNewsAdapter(ArrayList<Article> newsArticles) {
         this.newsArticles = newsArticles;
     }
-    public void addHomeNewsAdapter(List<Article> newsArticles){this.newsArticles.addAll(newsArticles);}
+    public void addHomeNewsAdapter(ArrayList<Article> newsArtticles){
+        for (int i = 0; i < newsArtticles.size(); i++) {
+            int ind=this.newsArticles.indexOf(newsArtticles.get(i));
+            //if(newsArticles.contains(newsArtticles.get(i)))
+            if(ind==-1)
+                this.newsArticles.add(newsArtticles.get(i));
+            //Toast.makeText(HomeNewsAdapter.this, "Response Received", Toast.LENGTH_SHORT).show();
+        }
+        //this.newsArticles.addAll(newsArticles);
+
+    }
     @Override
     public HomeNewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_news, parent,false);
@@ -52,7 +63,9 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.HomeNe
                 .apply(options)
                 .into(holder.cardImageView);
         holder.cardTitleTextView.setText(newsArticle.getTitle());
-        holder.cardTimeTextView.setText(newsArticle.getPublishedAt());
+
+        holder.cardTimeTextView.setText(DateUtils.formatNewsApiDAte(newsArticle.getPublishedAt()));
+
         holder.cardDetailsTextView.setText(newsArticle.getDescription());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +82,13 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.HomeNe
     @Override
     public int getItemCount() {
         return newsArticles.size();
+    }
+
+
+    public void removeItem(int position) {
+        newsArticles.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, newsArticles.size());
     }
 
     public static class HomeNewsViewHolder extends RecyclerView.ViewHolder{
