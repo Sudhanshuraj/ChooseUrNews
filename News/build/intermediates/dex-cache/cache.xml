@@ -232,7 +232,7 @@
         jumboMode="true"
         optimize="true"
         revision="26.0.1"
-        sha1="05a7e1e1ecf9ab2348b6931099f7b542a21be3ff">
+        sha1="3ed8ede945d665cb22d861376efcf6bbdc30944f">
         <dex dex="/home/ankit/Desktop/Proj/News/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_e599a52ee1113235cf0f0e7109c03a10ac5cb71f/classes.dex" />
     </item>
 

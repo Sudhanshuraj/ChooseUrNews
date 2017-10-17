@@ -112,12 +112,12 @@ public class NewsDetailsActivity extends AppCompatActivity {
                // sharingIntent.setType("*/*");
                 startActivity(Intent.createChooser(sharingIntent, "Whom To Share"));
                 return true;
-            /*
+
             case android.R.id.home:
                 finish();
                 return true;
 
-             */
+             
             default:
                 return super.onOptionsItemSelected(item);
         }
