@@ -22,10 +22,18 @@
         </activity>
         <activity
             android:name=".NewsDetailsActivity"
-            android:resizeableActivity="true" />
+            android:resizeableActivity="true"
+            />
         <activity
             android:name=".LikedActivity"
-            android:resizeableActivity="true" />
+            android:resizeableActivity="true"
+            android:label="News You May Like"
+            />
+        <activity
+            android:name=".BookMarkActivity"
+            android:resizeableActivity="true"
+            android:label="Bookmarked News"
+            />
     </application>
 
 </manifest>

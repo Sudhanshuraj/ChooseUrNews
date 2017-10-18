@@ -42,6 +42,39 @@ public class LikedActivity extends AppCompatActivity {
         return false;
     }
 
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(LikedActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (result == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void requestPermission() {
+
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Toast.makeText(LikedActivity.this,
+                            "Permission accepted", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(LikedActivity.this,
+                            "Permission denied", Toast.LENGTH_LONG).show();
+
+                }
+                break;
+        }
+    }
+
+
     public static ArrayList<Article> readFromSd() {
 
         ArrayList<Article> savedArrayList = null;
@@ -60,24 +93,20 @@ public class LikedActivity extends AppCompatActivity {
                 savedArrayList = (ArrayList<Article>) is.readObject();
                 is.close();
                 fis.close();
-                //Toast.makeText(LikedActivity.this, "read from external storage", Toast.LENGTH_SHORT).show();
 
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
-                //Toast.makeText(LikedActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
             }
 
             return savedArrayList;
         }
         else {
 
-            //Toast.makeText(LikedActivity.this, "Error in reading", Toast.LENGTH_SHORT).show();
             return savedArrayList;
         }
     }
 
 
-    //public static ArrayList<Article> likedArticles =new ArrayList<>();
     ArrayList<Article> likedArticles = readFromSd();
     private RecyclerView newsRecyclerView;
     private LikedNewsAdapter likedNewsAdapter = new LikedNewsAdapter(likedArticles) ;
@@ -88,27 +117,20 @@ public class LikedActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
+        if(!checkPermission())
+            requestPermission();
         newsRecyclerView =  (RecyclerView) findViewById(R.id.activity_main_recyclerview);
         newsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //ArrayList<Article> likedArticles = readFromSd();
         NewsStore.setArticle(likedArticles);
-        Toast.makeText(LikedActivity.this, "Yo", Toast.LENGTH_SHORT).show();
         likedNewsAdapter.notifyDataSetChanged();
         newsRecyclerView.setAdapter(likedNewsAdapter);
-        int x = likedNewsAdapter.getItemCount();
-        int y = likedArticles.size();
-        String s = Integer.toString(y);
-        Toast.makeText(LikedActivity.this, s, Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        getMenuInflater().inflate(R.menu.like_bookmark, menu);
         return true;
     }
 
@@ -116,7 +138,7 @@ public class LikedActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
+            case R.id.home:
                 this.finish();
                 return true;
             default:

@@ -105,6 +105,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
+
         }
 
                 return super.onOptionsItemSelected(item);

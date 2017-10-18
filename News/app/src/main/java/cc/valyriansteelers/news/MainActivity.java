@@ -40,14 +40,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.R.attr.width;
+
 public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CODE = 1;
     private RecyclerView newsRecyclerView;
     private ArrayList<Article>  newsArticles = new ArrayList<>();
     private HomeNewsAdapter homeNewsAdapter = new HomeNewsAdapter(newsArticles);
     private Paint p=new Paint();
-    public static ArrayList<Article> test = null;
-    //public static ArrayList<Article> ls = new ArrayList<>();
+    public static ArrayList<Article> test = new ArrayList<>();
 
     private boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    void saveToSD(ArrayList<Article> articles) {
+    void saveToSD(ArrayList<Article> articles,String dest) {
 
         if (isExternalStorageWritable()) {
             File path = Environment.getExternalStorageDirectory();
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     FileOutputStream fos =
                             new FileOutputStream(
-                                    new File(path, "like.dat")
+                                    new File(path, dest)
                             );
                     ObjectOutputStream os = new ObjectOutputStream(fos);
                     os.writeObject(articles);
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-     public ArrayList<Article> readFromSd() {
+     public ArrayList<Article> readFromSd(String dest) {
 
         ArrayList<Article> savedArrayList = new ArrayList<>();
         if(isExternalStorageWritable()) {
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 FileInputStream fis =
                         new FileInputStream(
-                                new File(path, "like.dat")
+                                new File(path, dest)
                         );
                 ObjectInputStream is = new ObjectInputStream(fis);
                 savedArrayList = (ArrayList<Article>) is.readObject();
@@ -161,6 +162,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public static boolean isPresent(ArrayList<Article> list, Article toCheck){
+        int n = list.size();
+        for(int i = 0; i < n; i++){
+            if(list.get(i).getUrl().equals(toCheck.getUrl())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
 
 
@@ -168,10 +180,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if(!checkPermission()) {
+        if(!checkPermission())
             requestPermission();
-            saveToSD(test);
-        }
         initViews();
     }
 
@@ -360,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void initSwipe() {
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT ) {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -373,14 +383,20 @@ public class MainActivity extends AppCompatActivity {
                 if (direction == ItemTouchHelper.LEFT) {
                     if(checkPermission()){
 
-                        ArrayList<Article> ls = readFromSd();
-                        ls.add(newsArticles.get(position));
-                        saveToSD(ls);
+                        ArrayList<Article> ls = readFromSd("like.dat");
+                        if(isPresent(ls,newsArticles.get(position))){
+                            Toast.makeText(MainActivity.this, "Already Present", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            ls.add(newsArticles.get(position));
+                            saveToSD(ls,"like.dat");
+                        }
+
 
                     }
                     else {
                         requestPermission();
-                        saveToSD(test);
+                        saveToSD(test,"like.dat");
 
                     }
                     newsArticles.remove(newsArticles.get(position));
@@ -388,7 +404,30 @@ public class MainActivity extends AppCompatActivity {
                     homeNewsAdapter.notifyItemRemoved(position);
                     homeNewsAdapter.notifyDataSetChanged();
 
-                } else {
+                } else if(direction == ItemTouchHelper.RIGHT){
+                    if(checkPermission()){
+
+                        ArrayList<Article> bk = readFromSd("bookmark.dat");
+                        if(isPresent(bk,newsArticles.get(position))){
+                            Toast.makeText(MainActivity.this, "Already Present", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            bk.add(newsArticles.get(position));
+                            saveToSD(bk, "bookmark.dat");
+                        }
+
+                    }
+                    else {
+                        requestPermission();
+                        saveToSD(test,"bookmark.dat");
+
+                    }
+                    newsArticles.remove(newsArticles.get(position));
+                    NewsStore.setArticle(newsArticles);
+                    homeNewsAdapter.notifyItemRemoved(position);
+                    homeNewsAdapter.notifyDataSetChanged();
+
+
 
                 }
             }
@@ -401,14 +440,23 @@ public class MainActivity extends AppCompatActivity {
                     View itemView = viewHolder.itemView;
                     float height = (float) itemView.getBottom() - (float) itemView.getTop();
                     float width = height / 3;
+                    if (dX < 0) {
 
-                    p.setColor(Color.parseColor("#000000"));
-                    RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom());
-                    c.drawRect(background, p);
-                    icon = BitmapFactory.decodeResource(getResources(), R.drawable.sample);
-                    RectF icon_dest = new RectF((float) itemView.getRight() - 2*width, (float) itemView.getTop() + width, (float) itemView.getRight() - width, (float) itemView.getBottom() - width);
-                    c.drawBitmap(icon, null, icon_dest, p);
-                }
+                        p.setColor(Color.parseColor("#000000"));
+                        RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom());
+                        c.drawRect(background, p);
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.thumbsup);
+                        RectF icon_dest = new RectF((float) itemView.getRight() - 2 * width, (float) itemView.getTop() + width, (float) itemView.getRight() - width, (float) itemView.getBottom() - width);
+                        c.drawBitmap(icon, null, icon_dest, p);
+                    } else {
+                        p.setColor(Color.parseColor("#000000"));
+                        RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), dX, (float) itemView.getBottom());
+                        c.drawRect(background, p);
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.bkmrk);
+                        RectF icon_dest = new RectF((float) itemView.getLeft() + width, (float) itemView.getTop() + width, (float) itemView.getLeft() + 2 * width, (float) itemView.getBottom() - width);
+                        c.drawBitmap(icon, null, icon_dest, p);
+                    }
+                };
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         };
@@ -419,9 +467,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        getMenuInflater().inflate(R.menu.mainact_menu, menu);
         return true;
     }
 
@@ -429,12 +475,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                Intent myIntent = new Intent(MainActivity.this,
-                        LikedActivity.class);
-                startActivity(myIntent);
 
+            case R.id.like:
+                Intent myIntent1 = new Intent(MainActivity.this,
+                        LikedActivity.class);
+                startActivity(myIntent1);
                 return true;
+            case R.id.bookmark:
+                Intent myIntent2 = new Intent(MainActivity.this,
+                        BookMarkActivity.class);
+                startActivity(myIntent2);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
