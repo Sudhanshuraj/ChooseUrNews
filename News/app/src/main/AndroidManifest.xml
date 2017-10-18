@@ -23,6 +23,9 @@
         <activity
             android:name=".NewsDetailsActivity"
             android:resizeableActivity="true" />
+        <activity
+            android:name=".LikedActivity"
+            android:resizeableActivity="true" />
     </application>
 
 </manifest>

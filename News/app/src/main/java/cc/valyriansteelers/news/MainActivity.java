@@ -1,7 +1,6 @@
 package cc.valyriansteelers.news;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -47,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Article>  newsArticles = new ArrayList<>();
     private HomeNewsAdapter homeNewsAdapter = new HomeNewsAdapter(newsArticles);
     private Paint p=new Paint();
+    public static ArrayList<Article> test = null;
+    //public static ArrayList<Article> ls = new ArrayList<>();
 
     private boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -112,19 +113,24 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println(ex.getMessage());
                     Toast.makeText(MainActivity.this, ex.getMessage(), Toast.LENGTH_LONG).show();
                 }
-            }
-            else
-                requestPermission();
+        }
+        else
+            requestPermission();
         }
     }
 
-    private ArrayList<Article> readFromSd() {
+     public ArrayList<Article> readFromSd() {
 
-        ArrayList<Article> savedArrayList = null;
+        ArrayList<Article> savedArrayList = new ArrayList<>();
         if(isExternalStorageWritable()) {
             File path = Environment.getExternalStorageDirectory();
+            if(checkPermission()){
+
             try {
                 File dir = new File(String.valueOf(path));
+                if (!dir.exists()) {
+                    dir.mkdir();
+                }
                 FileInputStream fis =
                         new FileInputStream(
                                 new File(path, "like.dat")
@@ -142,6 +148,12 @@ public class MainActivity extends AppCompatActivity {
 
             return savedArrayList;
         }
+            else {
+                requestPermission();
+                return savedArrayList;
+            }
+
+        }
         else {
 
             Toast.makeText(MainActivity.this, "Error in reading", Toast.LENGTH_SHORT).show();
@@ -156,6 +168,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if(!checkPermission()) {
+            requestPermission();
+            saveToSD(test);
+        }
         initViews();
     }
 
@@ -211,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        //can delete espn as it creates only 1 news-article
+            //can delete espn as it creates only 1 news-article
 
         Call<ArticlesResponse> call3 = NewsAPI.getApi().getArticles("bbc-news", "top");
         call3.enqueue(new Callback<ArticlesResponse>() {
@@ -340,7 +356,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        initSwipe();
+    initSwipe();
 
     }
     private void initSwipe() {
@@ -356,12 +372,17 @@ public class MainActivity extends AppCompatActivity {
                 int position = viewHolder.getAdapterPosition();
                 if (direction == ItemTouchHelper.LEFT) {
                     if(checkPermission()){
+
                         ArrayList<Article> ls = readFromSd();
                         ls.add(newsArticles.get(position));
                         saveToSD(ls);
+
                     }
-                    else
+                    else {
                         requestPermission();
+                        saveToSD(test);
+
+                    }
                     newsArticles.remove(newsArticles.get(position));
                     NewsStore.setArticle(newsArticles);
                     homeNewsAdapter.notifyItemRemoved(position);

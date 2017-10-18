@@ -13,7 +13,7 @@ public class DateUtils {
     public static String formatNewsApiDAte(String inputdate){
 
         String aa=inputdate+"asas";
-        if(aa.equals("nullasas"))return "Not Available";
+        if(aa.equals("nullasas"))return "Time Not Available";
         else
         try{
             String inputDateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'";

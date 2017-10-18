@@ -28,23 +28,19 @@ import cc.valyriansteelers.news.util.DateUtils;
 
 
 public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.HomeNewsViewHolder>{
-    private ArrayList<Article> newsArticles;
-    public HomeNewsAdapter(){
-        this.newsArticles= new ArrayList<Article>();
-    }
+    private ArrayList<Article> newsArticles = new ArrayList<>();
 
     public HomeNewsAdapter(ArrayList<Article> newsArticles) {
+
         this.newsArticles = newsArticles;
     }
+
     public void addHomeNewsAdapter(ArrayList<Article> newsArtticles){
         for (int i = 0; i < newsArtticles.size(); i++) {
             int ind=this.newsArticles.indexOf(newsArtticles.get(i));
-            //if(newsArticles.contains(newsArtticles.get(i)))
             if(ind==-1)
                 this.newsArticles.add(newsArtticles.get(i));
-            //Toast.makeText(HomeNewsAdapter.this, "Response Received", Toast.LENGTH_SHORT).show();
         }
-        //this.newsArticles.addAll(newsArticles);
 
     }
     @Override
@@ -84,12 +80,6 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.HomeNe
         return newsArticles.size();
     }
 
-
-    public void removeItem(int position) {
-        newsArticles.remove(position);
-        notifyItemRemoved(position);
-        notifyItemRangeChanged(position, newsArticles.size());
-    }
 
     public static class HomeNewsViewHolder extends RecyclerView.ViewHolder{
         ImageView cardImageView;

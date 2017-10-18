@@ -10,24 +10,22 @@ import java.util.List;
  */
 
 public class NewsStore {
-    public static List<Article> newsArticles = new ArrayList<>();
+    public static ArrayList<Article> newsArticles = new ArrayList<>();
 
-    public static List<Article> getNewsArticles() {
+    public static ArrayList<Article> getNewsArticles() {
         return newsArticles;
     }
 
-    public static void setArticle(List<Article> newsArticles) {
+    public static void setArticle(ArrayList<Article> newsArticles) {
         NewsStore.newsArticles = newsArticles;
     }
-    public static void addArticle(List<Article> newsArtticles){
+    public static void addArticle(ArrayList<Article> newsArtticles){
         for (int i = 0; i < newsArtticles.size(); i++) {
             int ind=newsArticles.indexOf(newsArtticles.get(i));
-            //if(newsArticles.contains(newsArtticles.get(i)))
               if(ind==-1)
            NewsStore.newsArticles.add(newsArtticles.get(i));
 
         }
-        //NewsStore.newsArticles.addAll(newsArtticles);
     }
 
 

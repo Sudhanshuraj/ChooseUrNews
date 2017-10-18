@@ -43,11 +43,15 @@ public class LikedActivity extends AppCompatActivity {
     }
 
     public static ArrayList<Article> readFromSd() {
+
         ArrayList<Article> savedArrayList = null;
         if(isExternalStorageWritable()) {
             File path = Environment.getExternalStorageDirectory();
             try {
-
+                File dir = new File(String.valueOf(path));
+                if (!dir.exists()) {
+                    dir.mkdir();
+                }
                 FileInputStream fis =
                         new FileInputStream(
                                 new File(path, "like.dat")

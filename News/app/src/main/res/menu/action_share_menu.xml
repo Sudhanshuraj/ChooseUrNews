@@ -8,11 +8,5 @@
         android:title="Share"
         app:showAsAction="always"
         />
-    <item
-        android:id="@+id/bookmark1"
-        android:icon="@drawable/bookmark"
-        android:title="bookmark"
-        app:showAsAction="always"
-        />
 
 </menu>
