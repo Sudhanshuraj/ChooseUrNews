@@ -100,7 +100,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
                 sharingIntent.setType("text/plain");
                 String forsharingurl = "Why U Want To share Its URL!!!!";
                 int index = getIntent().getIntExtra(KEY_INDEX,-1);
-               // Uri imageuri =Uri.parse(NewsStore.getNewsArticles().get(index).getUrlToImage());
+
                 if(index!=-1) {
                     forsharingurl = NewsStore.getNewsArticles().get(index).getUrl();
                    // imageuri=Uri.parse(NewsStore.getNewsArticles().get(index).getUrlToImage());
@@ -109,7 +109,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, forsharingurl);
 
                 //sharingIntent.putExtra(Intent.EXTRA_STREAM,imageuri);
-               // sharingIntent.setType("*/*");
+
                 startActivity(Intent.createChooser(sharingIntent, "Whom To Share"));
                 return true;
 
