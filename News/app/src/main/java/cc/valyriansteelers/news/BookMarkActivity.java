@@ -211,8 +211,8 @@ public class BookMarkActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.home:
 
-                ArrayList<Article> bookmarkList = readFromSd("ChooseUrNews/bookmark.dat");
-                NewsStore.setArticle(bookmarkList);
+                ArrayList<Article> newsarticledata = readFromSd("ChooseUrNews/data.dat");
+                NewsStore.setArticle(newsarticledata);
                 this.finish();
                 return true;
             default:

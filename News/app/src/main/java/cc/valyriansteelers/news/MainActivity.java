@@ -35,6 +35,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import cc.valyriansteelers.news.model.Article;
 import cc.valyriansteelers.news.model.ArticlesResponse;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<Article> test = new ArrayList<>();
     public static String lis = null;
     private ArrayList<Article> newsArticles = readFromSd("ChooseUrNews/data.dat");
+    private Map<String,Integer> frequency = readFromSdMap("ChooseUrNews/freq.dat");
     private HomeNewsAdapter homeNewsAdapter = new HomeNewsAdapter(newsArticles);
     SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -257,7 +259,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         Call<ArticlesResponse> call = NewsAPI.getApi().getArticles("the-hindu", "top");
-
         call.enqueue(new Callback<ArticlesResponse>() {
             @Override
             public void onResponse(Call<ArticlesResponse> call, Response<ArticlesResponse> response) {
@@ -299,10 +300,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         //can delete espn as it creates only 1 news-article
-/*
 
         Call<ArticlesResponse> call3 = NewsAPI.getApi().getArticles("bbc-news", "top");
         call3.enqueue(new Callback<ArticlesResponse>() {
@@ -392,7 +390,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-*/
+
 
         Call<ArticlesResponse> call8 = NewsAPI.getApi().getArticles("national-geographic", "top");
         call8.enqueue(new Callback<ArticlesResponse>() {
@@ -433,8 +431,42 @@ public class MainActivity extends AppCompatActivity {
 
                 if(direction == ItemTouchHelper.LEFT) {
 
+                    String titleofnews=newsArticles.get(position).getTitle();
+                    StringTokenizer hello = new StringTokenizer(titleofnews.toLowerCase()," ,.!-");  //chose which one u want  for delimimator
+                    ArrayList<String> stop = new ArrayList<String>();
+                    stop.add("and");
+                    stop.add("at");
+                    stop.add("of");                 //should be declayered only one time otherwise everytime this will create and destroy it;
+                    stop.add("the");
+                    stop.add("is");
+                    stop.add("in");
+                    stop.add("his");
+                    stop.add("her");
+                    stop.add("...");
 
-                    ArrayList<Article> ls = readFromSd("ChooseUrNews/like.dat");
+                   // Map<String, Integer> myMap = new HashMap<String, Integer>();
+                    while (hello.hasMoreTokens()) {
+                        String nw = hello.nextToken();
+                        if (stop.contains(nw)) {
+                            continue;
+                        }
+                        //arr.add(nw);
+                        if (frequency.containsKey(nw)) {
+                            int i = frequency.get(nw);
+                            frequency.put(nw, i + 1);
+                            //System.out.println(i+1);
+                        } else {
+                            frequency.put(nw, 1);
+                            Toast.makeText(MainActivity.this, nw, Toast.LENGTH_SHORT).show();
+                            //System.out.println(1);
+                        }
+                    }
+
+                    //    Toast.makeText(MainActivity.this,titleofnews, Toast.LENGTH_SHORT).show();
+
+
+
+                  /*  ArrayList<Article> ls = readFromSd("ChooseUrNews/like.dat");
                     if (isPresent(ls, newsArticles.get(position))) {
                         Toast.makeText(MainActivity.this, "Already Present", Toast.LENGTH_SHORT).show();
                     } else {
@@ -451,7 +483,7 @@ public class MainActivity extends AppCompatActivity {
                             saveToSDMap(source, "ChooseUrNews/sources.dat");
                         }
 
-                    }
+                    }*/
                 }
 
 
@@ -494,6 +526,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            /*case R.id.news_title:
+                Toast.makeText(MainActivity.this, "Already Present", Toast.LENGTH_SHORT).show();
+                return true;*/
 
             case R.id.like:
                 File path = Environment.getExternalStorageDirectory();
