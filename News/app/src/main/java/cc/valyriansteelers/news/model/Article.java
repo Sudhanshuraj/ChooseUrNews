@@ -26,6 +26,11 @@ public class Article implements Serializable{
     @SerializedName("publishedAt")
     @Expose
     private String publishedAt;
+    @SerializedName("sourcename")
+    @Expose
+    private String sourcename;
+
+    private Integer priority = 0;
 
     public String getAuthor() {
         return author;
@@ -74,5 +79,20 @@ public class Article implements Serializable{
     public void setPublishedAt(String publishedAt) {
         this.publishedAt = publishedAt;
     }
+
+    public String getSourcename(){
+        return  sourcename;
+    }
+    public void setSourcename(String sourcename){
+        this.sourcename = sourcename;
+    }
+
+    public Integer getPriority() { return priority; }
+
+    public void setPriority(Integer newPriority) {this.priority = newPriority; }
+
+
+
+
 
 }

@@ -12,6 +12,7 @@ import android.graphics.RectF;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,6 +33,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import cc.valyriansteelers.news.model.Article;
 import cc.valyriansteelers.news.model.ArticlesResponse;
 import cc.valyriansteelers.news.model.NewsStore;
@@ -40,15 +44,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.R.attr.width;
 
 public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CODE = 1;
     private RecyclerView newsRecyclerView;
-    private ArrayList<Article>  newsArticles = new ArrayList<>();
-    private HomeNewsAdapter homeNewsAdapter = new HomeNewsAdapter(newsArticles);
     private Paint p=new Paint();
     public static ArrayList<Article> test = new ArrayList<>();
+    public static String lis = null;
+    private ArrayList<Article> newsArticles = readFromSd("ChooseUrNews/data.dat");
+    private HomeNewsAdapter homeNewsAdapter = new HomeNewsAdapter(newsArticles);
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     private boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -65,24 +70,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    Toast.makeText(MainActivity.this,
-                            "Permission accepted", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(MainActivity.this,
-                            "Permission denied", Toast.LENGTH_LONG).show();
-
-                }
-                break;
-        }
-    }
-
-    public boolean isExternalStorageWritable() {
+    public static boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state)) {
             return true;
@@ -95,9 +84,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (isExternalStorageWritable()) {
             File path = Environment.getExternalStorageDirectory();
-            if (checkPermission()){
                 try {
-                    File dir = new File(String.valueOf(path));
+                    File dir = new File(String.valueOf(path)+"/ChooseUrNews");
                     if (!dir.exists()) {
                         dir.mkdir();
                     }
@@ -108,27 +96,50 @@ public class MainActivity extends AppCompatActivity {
                     ObjectOutputStream os = new ObjectOutputStream(fos);
                     os.writeObject(articles);
                     os.close();
-                    Toast.makeText(MainActivity.this, "Saved in External storage", Toast.LENGTH_LONG).show();
+                    
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     System.out.println(ex.getMessage());
-                    Toast.makeText(MainActivity.this, ex.getMessage(), Toast.LENGTH_LONG).show();
                 }
-        }
-        else
-            requestPermission();
+
         }
     }
 
-     public ArrayList<Article> readFromSd(String dest) {
+    void saveToSDMap(Map<String, Integer> source,String dest) {
+
+        if (isExternalStorageWritable()) {
+            File path = Environment.getExternalStorageDirectory();
+                try {
+                    File dir = new File(String.valueOf(path)+"/ChooseUrNews");
+                    if (!dir.exists()) {
+                        dir.mkdir();
+                    }
+                    FileOutputStream fos =
+                            new FileOutputStream(
+                                    new File(path, dest)
+                            );
+                    ObjectOutputStream os = new ObjectOutputStream(fos);
+                    os.writeObject(source);
+                    os.close();
+                    
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    System.out.println(ex.getMessage());
+                    
+                }
+        }
+    }
+
+
+
+     public static ArrayList<Article> readFromSd(String dest) {
 
         ArrayList<Article> savedArrayList = new ArrayList<>();
         if(isExternalStorageWritable()) {
             File path = Environment.getExternalStorageDirectory();
-            if(checkPermission()){
 
             try {
-                File dir = new File(String.valueOf(path));
+                File dir = new File(String.valueOf(path)+"/ChooseUrNews");
                 if (!dir.exists()) {
                     dir.mkdir();
                 }
@@ -140,25 +151,50 @@ public class MainActivity extends AppCompatActivity {
                 savedArrayList = (ArrayList<Article>) is.readObject();
                 is.close();
                 fis.close();
-                Toast.makeText(MainActivity.this, "read from external storage", Toast.LENGTH_SHORT).show();
 
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
-                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
             }
 
             return savedArrayList;
-        }
-            else {
-                requestPermission();
-                return savedArrayList;
-            }
+
 
         }
         else {
-
-            Toast.makeText(MainActivity.this, "Error in reading", Toast.LENGTH_SHORT).show();
+            
             return savedArrayList;
+        }
+    }
+
+    public static Map<String ,Integer> readFromSdMap(String dest) {
+
+        Map<String,Integer> source = new HashMap<String, Integer>();
+        if(isExternalStorageWritable()) {
+            File path = Environment.getExternalStorageDirectory();
+
+                try {
+                    File dir = new File(String.valueOf(path)+"/ChooseUrNews");
+                    if (!dir.exists()) {
+                        dir.mkdir();
+                    }
+                    FileInputStream fis =
+                            new FileInputStream(
+                                    new File(path, dest)
+                            );
+                    ObjectInputStream is = new ObjectInputStream(fis);
+                    source = (Map<String, Integer>) is.readObject();
+                    is.close();
+                    fis.close();
+
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                return source;
+
+        }
+        else {
+            return source;
         }
     }
 
@@ -175,15 +211,50 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if(!checkPermission())
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeToRefresh);
+
+        if(!checkPermission()) {
             requestPermission();
-        initViews();
+            onCreate(savedInstanceState);
+        }
+
+        File path = Environment.getExternalStorageDirectory();
+        File dir = new File(String.valueOf(path)+"/ChooseUrNews");
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+
+        if(newsArticles.isEmpty()) {
+            initViews();
+        }
+        else{
+            newsRecyclerView =  (RecyclerView) findViewById(R.id.activity_main_recyclerview);
+            newsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+            homeNewsAdapter.addHomeNewsAdapter(newsArticles);
+            homeNewsAdapter.notifyDataSetChanged();
+            newsRecyclerView.setAdapter(homeNewsAdapter);
+            Toast.makeText(MainActivity.this, "loaded from internal storage", Toast.LENGTH_SHORT).show();
+            initSwipe();
+        }
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                newsArticles.clear();
+                initViews();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+
+
     }
+
+
 
 
 
@@ -198,8 +269,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArticlesResponse> call, Response<ArticlesResponse> response) {
                 ArticlesResponse articlesResponse = response.body();
-                NewsStore.addArticle(articlesResponse.getArticles());
-                Toast.makeText(MainActivity.this, "Response Received", Toast.LENGTH_SHORT).show();
+                NewsStore.addArticle(articlesResponse.getArticles(),"hindu");
                 homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
                 homeNewsAdapter.notifyDataSetChanged();
             }
@@ -218,10 +288,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArticlesResponse> call2, Response<ArticlesResponse> response) {
                 ArticlesResponse articlesResponse = response.body();
-                NewsStore.addArticle(articlesResponse.getArticles());
-                Toast.makeText(MainActivity.this, "Response Received hacker", Toast.LENGTH_SHORT).show();
+                NewsStore.addArticle(articlesResponse.getArticles(),"hackernews");
                 homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
-
                 newsRecyclerView.setAdapter(homeNewsAdapter);
                 homeNewsAdapter.notifyDataSetChanged();
 
@@ -237,15 +305,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-            //can delete espn as it creates only 1 news-article
+        //can delete espn as it creates only 1 news-article
 
         Call<ArticlesResponse> call3 = NewsAPI.getApi().getArticles("bbc-news", "top");
         call3.enqueue(new Callback<ArticlesResponse>() {
             @Override
             public void onResponse(Call<ArticlesResponse> call3, Response<ArticlesResponse> response) {
                 ArticlesResponse articlesResponse = response.body();
-                NewsStore.addArticle(articlesResponse.getArticles());
-                Toast.makeText(MainActivity.this, "Response Received bbc-news", Toast.LENGTH_SHORT).show();
+                NewsStore.addArticle(articlesResponse.getArticles(),"bbc");
                 homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
                 newsRecyclerView.setAdapter(homeNewsAdapter);
                 homeNewsAdapter.notifyDataSetChanged();
@@ -267,8 +334,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArticlesResponse> call4, Response<ArticlesResponse> response) {
                 ArticlesResponse articlesResponse = response.body();
-                NewsStore.addArticle(articlesResponse.getArticles());
-                Toast.makeText(MainActivity.this, "google-news", Toast.LENGTH_SHORT).show();
+                NewsStore.addArticle(articlesResponse.getArticles(),"google");
                 homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
                 newsRecyclerView.setAdapter(homeNewsAdapter);
                 homeNewsAdapter.notifyDataSetChanged();
@@ -288,8 +354,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArticlesResponse> call5, Response<ArticlesResponse> response) {
                 ArticlesResponse articlesResponse = response.body();
-                NewsStore.addArticle(articlesResponse.getArticles());
-                Toast.makeText(MainActivity.this, "Response Received new-scientist", Toast.LENGTH_SHORT).show();
+                NewsStore.addArticle(articlesResponse.getArticles(),"scientist");
                 homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
                 newsRecyclerView.setAdapter(homeNewsAdapter);
                 homeNewsAdapter.notifyDataSetChanged();
@@ -310,8 +375,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArticlesResponse> call6, Response<ArticlesResponse> response) {
                 ArticlesResponse articlesResponse = response.body();
-                NewsStore.addArticle(articlesResponse.getArticles());
-                Toast.makeText(MainActivity.this, "Response Received business-insider", Toast.LENGTH_SHORT).show();
+                NewsStore.addArticle(articlesResponse.getArticles(),"bussiness-insider");
                 homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
                 newsRecyclerView.setAdapter(homeNewsAdapter);
             }
@@ -331,8 +395,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArticlesResponse> call7, Response<ArticlesResponse> response) {
                 ArticlesResponse articlesResponse = response.body();
-                NewsStore.addArticle(articlesResponse.getArticles());
-                Toast.makeText(MainActivity.this, "Response Received times-of-india", Toast.LENGTH_SHORT).show();
+                NewsStore.addArticle(articlesResponse.getArticles(),"timesofindia");
                 homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
                 newsRecyclerView.setAdapter(homeNewsAdapter);
                 homeNewsAdapter.notifyDataSetChanged();
@@ -351,11 +414,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ArticlesResponse> call8, Response<ArticlesResponse> response) {
                 ArticlesResponse articlesResponse = response.body();
-                NewsStore.addArticle(articlesResponse.getArticles());
-                Toast.makeText(MainActivity.this, "Response Received national-geographic", Toast.LENGTH_SHORT).show();
+                NewsStore.addArticle(articlesResponse.getArticles(),"geographic");
                 homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
                 newsRecyclerView.setAdapter(homeNewsAdapter);
                 homeNewsAdapter.notifyDataSetChanged();
+
+                saveToSD(newsArticles,"ChooseUrNews/data.dat");
             }
             @Override
             public void onFailure(Call<ArticlesResponse> call8, Throwable t) {
@@ -366,11 +430,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-    initSwipe();
+        initSwipe();
 
     }
+
+
     private void initSwipe() {
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT ) {
 
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -380,56 +446,35 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
-                if (direction == ItemTouchHelper.LEFT) {
-                    if(checkPermission()){
 
-                        ArrayList<Article> ls = readFromSd("like.dat");
-                        if(isPresent(ls,newsArticles.get(position))){
-                            Toast.makeText(MainActivity.this, "Already Present", Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            ls.add(newsArticles.get(position));
-                            saveToSD(ls,"like.dat");
-                        }
+                if(direction == ItemTouchHelper.LEFT) {
 
 
-                    }
-                    else {
-                        requestPermission();
-                        saveToSD(test,"like.dat");
-
-                    }
-                    newsArticles.remove(newsArticles.get(position));
-                    NewsStore.setArticle(newsArticles);
-                    homeNewsAdapter.notifyItemRemoved(position);
-                    homeNewsAdapter.notifyDataSetChanged();
-
-                } else if(direction == ItemTouchHelper.RIGHT){
-                    if(checkPermission()){
-
-                        ArrayList<Article> bk = readFromSd("bookmark.dat");
-                        if(isPresent(bk,newsArticles.get(position))){
-                            Toast.makeText(MainActivity.this, "Already Present", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            bk.add(newsArticles.get(position));
-                            saveToSD(bk, "bookmark.dat");
+                    ArrayList<Article> ls = readFromSd("ChooseUrNews/like.dat");
+                    if (isPresent(ls, newsArticles.get(position))) {
+                        Toast.makeText(MainActivity.this, "Already Present", Toast.LENGTH_SHORT).show();
+                    } else {
+                        ls.add(newsArticles.get(position));
+                        saveToSD(ls, "ChooseUrNews/like.dat");
+                        lis = newsArticles.get(position).getSourcename();
+                        Map<String, Integer> source = readFromSdMap("ChooseUrNews/sources.txt");
+                        Integer num = source.get(lis);
+                        if (num == null) {
+                            source.put(lis, 1);
+                            saveToSDMap(source, "ChooseUrNews/sources.dat");
+                        } else {
+                            source.put(lis, num + 1);
+                            saveToSDMap(source, "ChooseUrNews/sources.dat");
                         }
 
                     }
-                    else {
-                        requestPermission();
-                        saveToSD(test,"bookmark.dat");
-
-                    }
-                    newsArticles.remove(newsArticles.get(position));
-                    NewsStore.setArticle(newsArticles);
-                    homeNewsAdapter.notifyItemRemoved(position);
-                    homeNewsAdapter.notifyDataSetChanged();
-
-
-
                 }
+
+
+                newsArticles.remove(newsArticles.get(position));
+                NewsStore.setArticle(newsArticles);
+                homeNewsAdapter.notifyItemRemoved(position);
+                homeNewsAdapter.notifyDataSetChanged();
             }
 
             public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
@@ -440,23 +485,14 @@ public class MainActivity extends AppCompatActivity {
                     View itemView = viewHolder.itemView;
                     float height = (float) itemView.getBottom() - (float) itemView.getTop();
                     float width = height / 3;
-                    if (dX < 0) {
 
                         p.setColor(Color.parseColor("#000000"));
                         RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom());
                         c.drawRect(background, p);
-                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.thumbsup);
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.thumsup);
                         RectF icon_dest = new RectF((float) itemView.getRight() - 2 * width, (float) itemView.getTop() + width, (float) itemView.getRight() - width, (float) itemView.getBottom() - width);
                         c.drawBitmap(icon, null, icon_dest, p);
-                    } else {
-                        p.setColor(Color.parseColor("#000000"));
-                        RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), dX, (float) itemView.getBottom());
-                        c.drawRect(background, p);
-                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.bkmrk);
-                        RectF icon_dest = new RectF((float) itemView.getLeft() + width, (float) itemView.getTop() + width, (float) itemView.getLeft() + 2 * width, (float) itemView.getBottom() - width);
-                        c.drawBitmap(icon, null, icon_dest, p);
-                    }
-                };
+                }
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         };
@@ -477,11 +513,31 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.like:
+                File path = Environment.getExternalStorageDirectory();
+                File dir = new File(String.valueOf(path)+"/ChooseUrNews/like.dat");
+                if(!dir.exists()){
+                    try {
+                        dir.createNewFile();
+                        saveToSD(test,"ChooseUrNews/like.dat");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 Intent myIntent1 = new Intent(MainActivity.this,
                         LikedActivity.class);
                 startActivity(myIntent1);
                 return true;
             case R.id.bookmark:
+                File path2 = Environment.getExternalStorageDirectory();
+                File dir2 = new File(String.valueOf(path2)+"/ChooseUrNews/bookmark.dat");
+                if(!dir2.exists()){
+                    try {
+                        dir2.createNewFile();
+                        saveToSD(test,"ChooseUrNews/bookmark.dat");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 Intent myIntent2 = new Intent(MainActivity.this,
                         BookMarkActivity.class);
                 startActivity(myIntent2);

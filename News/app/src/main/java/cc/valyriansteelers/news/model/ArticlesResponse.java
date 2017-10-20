@@ -11,7 +11,6 @@ public class ArticlesResponse {
 
     @SerializedName("status")
     @Expose
-
     private String status;
     @SerializedName("source")
     @Expose

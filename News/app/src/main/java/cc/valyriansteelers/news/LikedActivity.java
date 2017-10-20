@@ -57,37 +57,37 @@ public class LikedActivity extends AppCompatActivity {
 
     }
 
-    @Override
+    /*@Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    Toast.makeText(LikedActivity.this,
-                            "Permission accepted", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(LikedActivity.this,
+                            "Permission accepted", //Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(LikedActivity.this,
-                            "Permission denied", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(LikedActivity.this,
+                            "Permission denied", //Toast.LENGTH_LONG).show();
 
                 }
                 break;
         }
-    }
+    }*/
 
 
-    public static ArrayList<Article> readFromSd() {
+    public static ArrayList<Article> readFromSd(String dest) {
 
         ArrayList<Article> savedArrayList = null;
         if(isExternalStorageWritable()) {
             File path = Environment.getExternalStorageDirectory();
             try {
-                File dir = new File(String.valueOf(path));
+                File dir = new File(String.valueOf(path) + "/ChooseUrNews");
                 if (!dir.exists()) {
                     dir.mkdir();
                 }
                 FileInputStream fis =
                         new FileInputStream(
-                                new File(path, "like.dat")
+                                new File(path, dest)
                         );
                 ObjectInputStream is = new ObjectInputStream(fis);
                 savedArrayList = (ArrayList<Article>) is.readObject();
@@ -107,7 +107,7 @@ public class LikedActivity extends AppCompatActivity {
     }
 
 
-    ArrayList<Article> likedArticles = readFromSd();
+    ArrayList<Article> likedArticles = readFromSd("ChooseUrNews/like.dat");
     private RecyclerView newsRecyclerView;
     private LikedNewsAdapter likedNewsAdapter = new LikedNewsAdapter(likedArticles) ;
 

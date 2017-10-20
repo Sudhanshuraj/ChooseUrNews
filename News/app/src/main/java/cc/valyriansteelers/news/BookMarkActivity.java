@@ -63,22 +63,6 @@ public class BookMarkActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    Toast.makeText(BookMarkActivity.this,
-                            "Permission accepted", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(BookMarkActivity.this,
-                            "Permission denied", Toast.LENGTH_LONG).show();
-
-                }
-                break;
-        }
-    }
 
     public static ArrayList<Article> readFromSd(String dest) {
 
@@ -86,7 +70,7 @@ public class BookMarkActivity extends AppCompatActivity {
         if(isExternalStorageWritable()) {
             File path = Environment.getExternalStorageDirectory();
             try {
-                File dir = new File(String.valueOf(path));
+                File dir = new File(String.valueOf(path)+"/ChooseUrNews");
                 if (!dir.exists()) {
                     dir.mkdir();
                 }
@@ -118,7 +102,7 @@ public class BookMarkActivity extends AppCompatActivity {
             File path = Environment.getExternalStorageDirectory();
             if (checkPermission()){
                 try {
-                    File dir = new File(String.valueOf(path));
+                    File dir = new File(String.valueOf(path)+"/ChooseUrNews");
                     if (!dir.exists()) {
                         dir.mkdir();
                     }
@@ -129,11 +113,11 @@ public class BookMarkActivity extends AppCompatActivity {
                     ObjectOutputStream os = new ObjectOutputStream(fos);
                     os.writeObject(articles);
                     os.close();
-                    Toast.makeText(BookMarkActivity.this, "Saved in External storage", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(BookMarkActivity.this, "Saved in External storage", //Toast.LENGTH_LONG).show();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     System.out.println(ex.getMessage());
-                    Toast.makeText(BookMarkActivity.this, ex.getMessage(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(BookMarkActivity.this, ex.getMessage(), //Toast.LENGTH_LONG).show();
                 }
             }
             else
@@ -141,7 +125,7 @@ public class BookMarkActivity extends AppCompatActivity {
         }
     }
     
-    ArrayList<Article> bookmarkList = readFromSd("bookmark.dat");
+    ArrayList<Article> bookmarkList = readFromSd("ChooseUrNews/bookmark.dat");
     private RecyclerView newsRecyclerView;
     private HomeNewsAdapter bkNewsAdapter = new HomeNewsAdapter(bookmarkList);
     private Paint p=new Paint();
@@ -183,7 +167,7 @@ public class BookMarkActivity extends AppCompatActivity {
                 if (direction == ItemTouchHelper.LEFT) {
 
                     bookmarkList.remove(bookmarkList.get(position));
-                    saveToSD(bookmarkList,"bookmark.dat");
+                    saveToSD(bookmarkList,"ChooseUrNews/bookmark.dat");
                     NewsStore.setArticle(bookmarkList);
                     bkNewsAdapter.notifyItemRemoved(position);
                     bkNewsAdapter.notifyDataSetChanged();
@@ -207,7 +191,7 @@ public class BookMarkActivity extends AppCompatActivity {
                         RectF icon_dest = new RectF((float) itemView.getRight() - 2 * width, (float) itemView.getTop() + width, (float) itemView.getRight() - width, (float) itemView.getBottom() - width);
                         c.drawBitmap(icon, null, icon_dest, p);
 
-                };
+                }
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         };

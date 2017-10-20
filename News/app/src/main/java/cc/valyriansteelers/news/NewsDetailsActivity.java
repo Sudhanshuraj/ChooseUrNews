@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,12 +18,99 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+
+import cc.valyriansteelers.news.model.Article;
 import cc.valyriansteelers.news.model.NewsStore;
 
 public class NewsDetailsActivity extends AppCompatActivity {
     public static final String KEY_INDEX = "news_index";
     private ProgressBar progressBar;
     private WebView webView;
+
+    public static boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+    public static boolean isPresent(ArrayList<Article> list, Article toCheck){
+        int n = list.size();
+        for(int i = 0; i < n; i++){
+            if(list.get(i).getUrl().equals(toCheck.getUrl())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    void saveToSD(ArrayList<Article> articles,String dest) {
+
+        if (isExternalStorageWritable()) {
+            File path = Environment.getExternalStorageDirectory();
+            try {
+                File dir = new File(String.valueOf(path)+"/ChooseUrNews");
+                if (!dir.exists()) {
+                    dir.mkdir();
+                }
+                FileOutputStream fos =
+                        new FileOutputStream(
+                                new File(path, dest)
+                        );
+                ObjectOutputStream os = new ObjectOutputStream(fos);
+                os.writeObject(articles);
+                os.close();
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.out.println(ex.getMessage());
+            }
+
+        }
+    }
+
+    public static ArrayList<Article> readFromSd(String dest) {
+
+        ArrayList<Article> savedArrayList = new ArrayList<>();
+        if(isExternalStorageWritable()) {
+            File path = Environment.getExternalStorageDirectory();
+
+            try {
+                File dir = new File(String.valueOf(path)+"/ChooseUrNews");
+                if (!dir.exists()) {
+                    dir.mkdir();
+                }
+                FileInputStream fis =
+                        new FileInputStream(
+                                new File(path, dest)
+                        );
+                ObjectInputStream is = new ObjectInputStream(fis);
+                savedArrayList = (ArrayList<Article>) is.readObject();
+                is.close();
+                fis.close();
+
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            return savedArrayList;
+
+
+        }
+        else {
+
+            return savedArrayList;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +124,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
         int index = getIntent().getIntExtra(KEY_INDEX,-1);
         if(index != -1){
             updateNewsdetails(index);
+            Toast.makeText(NewsDetailsActivity.this,NewsStore.getNewsArticles().get(index).getSourcename(), Toast.LENGTH_SHORT).show();
         }
         else{
             Toast.makeText(NewsDetailsActivity.this, "Sorry, Incorrect index passed", Toast.LENGTH_SHORT).show();
@@ -102,13 +191,26 @@ public class NewsDetailsActivity extends AppCompatActivity {
                 startActivity(Intent.createChooser(sharingIntent, "Whom To Share"));
                 return true;
 
+            case R.id.addbookmark:
+                ArrayList<Article> bk = readFromSd("ChooseUrNews/bookmark.dat");
+                int indexi = getIntent().getIntExtra(KEY_INDEX, -1);
+                if (isPresent(bk, NewsStore.getNewsArticles().get(indexi))) {
+                    Toast.makeText(NewsDetailsActivity.this, "Already Present", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    bk.add(NewsStore.getNewsArticles().get(indexi));
+                    saveToSD(bk, "ChooseUrNews/bookmark.dat");
+                    Toast.makeText(NewsDetailsActivity.this, "Bookmarked", Toast.LENGTH_SHORT).show();
+                }
+                return true;
             case android.R.id.home:
                 finish();
                 return true;
 
-        }
 
-                return super.onOptionsItemSelected(item);
+            default:
+            return super.onOptionsItemSelected(item);
+        }
     }
 
 }
