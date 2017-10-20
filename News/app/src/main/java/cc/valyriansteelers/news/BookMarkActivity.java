@@ -210,6 +210,9 @@ public class BookMarkActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.home:
+
+                ArrayList<Article> bookmarkList = readFromSd("ChooseUrNews/bookmark.dat");
+                NewsStore.setArticle(bookmarkList);
                 this.finish();
                 return true;
             default:

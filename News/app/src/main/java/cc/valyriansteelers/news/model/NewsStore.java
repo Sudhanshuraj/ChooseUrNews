@@ -10,6 +10,7 @@ import java.util.List;
  */
 
 public class NewsStore {
+
     public static ArrayList<Article> newsArticles = new ArrayList<>();
 
     public static ArrayList<Article> getNewsArticles() {

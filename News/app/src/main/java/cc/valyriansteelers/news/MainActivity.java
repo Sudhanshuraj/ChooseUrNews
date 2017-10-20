@@ -44,7 +44,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
 public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CODE = 1;
     private RecyclerView newsRecyclerView;
@@ -70,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     public static boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state)) {
@@ -78,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
-
 
     void saveToSD(ArrayList<Article> articles,String dest) {
 
@@ -129,8 +126,6 @@ public class MainActivity extends AppCompatActivity {
                 }
         }
     }
-
-
 
      public static ArrayList<Article> readFromSd(String dest) {
 
@@ -209,13 +204,13 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeToRefresh);
+
+        //Toast.makeText(MainActivity.this, newsArticles.size(), Toast.LENGTH_SHORT).show();
 
         if(!checkPermission()) {
             requestPermission();
@@ -238,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
             homeNewsAdapter.notifyDataSetChanged();
             newsRecyclerView.setAdapter(homeNewsAdapter);
             Toast.makeText(MainActivity.this, "loaded from internal storage", Toast.LENGTH_SHORT).show();
+            NewsStore.setArticle(newsArticles);
             initSwipe();
         }
 
@@ -246,6 +242,7 @@ public class MainActivity extends AppCompatActivity {
             public void onRefresh() {
                 newsArticles.clear();
                 initViews();
+                NewsStore.setArticle(newsArticles);
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -253,10 +250,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-
-
-
 
     private void initViews(){
         newsRecyclerView =  (RecyclerView) findViewById(R.id.activity_main_recyclerview);
@@ -271,6 +264,9 @@ public class MainActivity extends AppCompatActivity {
                 ArticlesResponse articlesResponse = response.body();
                 NewsStore.addArticle(articlesResponse.getArticles(),"hindu");
                 homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
+                //not written before
+                newsRecyclerView.setAdapter(homeNewsAdapter);
+
                 homeNewsAdapter.notifyDataSetChanged();
             }
 
@@ -306,6 +302,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //can delete espn as it creates only 1 news-article
+/*
 
         Call<ArticlesResponse> call3 = NewsAPI.getApi().getArticles("bbc-news", "top");
         call3.enqueue(new Callback<ArticlesResponse>() {
@@ -325,10 +322,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
         Call<ArticlesResponse> call4 = NewsAPI.getApi().getArticles("google-news", "top");
         call4.enqueue(new Callback<ArticlesResponse>() {
             @Override
@@ -346,8 +339,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
 
         Call<ArticlesResponse> call5 = NewsAPI.getApi().getArticles("new-scientist", "top");
         call5.enqueue(new Callback<ArticlesResponse>() {
@@ -367,9 +358,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
         Call<ArticlesResponse> call6 = NewsAPI.getApi().getArticles("business-insider", "top");
         call6.enqueue(new Callback<ArticlesResponse>() {
             @Override
@@ -386,9 +374,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
-
 
         Call<ArticlesResponse> call7 = NewsAPI.getApi().getArticles("the-times-of-india", "latest");
         call7.enqueue(new Callback<ArticlesResponse>() {
@@ -407,7 +392,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
+*/
 
         Call<ArticlesResponse> call8 = NewsAPI.getApi().getArticles("national-geographic", "top");
         call8.enqueue(new Callback<ArticlesResponse>() {
@@ -420,11 +405,11 @@ public class MainActivity extends AppCompatActivity {
                 homeNewsAdapter.notifyDataSetChanged();
 
                 saveToSD(newsArticles,"ChooseUrNews/data.dat");
+
             }
             @Override
             public void onFailure(Call<ArticlesResponse> call8, Throwable t) {
                 Toast.makeText(MainActivity.this, "Error Received 3", Toast.LENGTH_SHORT).show();
-
 
             }
         });
@@ -433,7 +418,6 @@ public class MainActivity extends AppCompatActivity {
         initSwipe();
 
     }
-
 
     private void initSwipe() {
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT ) {
@@ -475,6 +459,7 @@ public class MainActivity extends AppCompatActivity {
                 NewsStore.setArticle(newsArticles);
                 homeNewsAdapter.notifyItemRemoved(position);
                 homeNewsAdapter.notifyDataSetChanged();
+
             }
 
             public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
@@ -500,13 +485,11 @@ public class MainActivity extends AppCompatActivity {
         itemTouchHelper.attachToRecyclerView(newsRecyclerView);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mainact_menu, menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -547,8 +530,5 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
-
 
 }
