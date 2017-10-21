@@ -35,6 +35,7 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.HomeNe
         this.newsArticles = newsArticles;
     }
 
+    //need to improve below one.
     public void addHomeNewsAdapter(ArrayList<Article> newsArtticles){
         for (int i = 0; i < newsArtticles.size(); i++) {
             int ind=this.newsArticles.indexOf(newsArtticles.get(i));

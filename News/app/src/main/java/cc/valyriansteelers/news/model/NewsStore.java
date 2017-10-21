@@ -33,10 +33,6 @@ public class NewsStore {
         for (int i = 0; i < newsArtticles.size(); i++) {
             n=newsArtticles.get(i);
             n.setSourcename(source);
-            if(source.equals("timesofindia")){
-                n.setPriority(2);
-            }
-            else n.setPriority(1);
             int ind=newsArticles.indexOf(newsArtticles.get(i));
             //if(newsArticles.contains(newsArtticles.get(i)))
             if(ind==-1)
@@ -45,8 +41,6 @@ public class NewsStore {
         }
         //NewsStore.newsArticles.addAll(newsArtticles);
     }
-
-
 
 
 }

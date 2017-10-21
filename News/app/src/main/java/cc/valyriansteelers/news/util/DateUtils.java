@@ -11,13 +11,10 @@ import java.util.Date;
 public class DateUtils {
 
     public static String formatNewsApiDAte(String inputdate){
-
-        String aa=inputdate+"asas";
-        if(aa.equals("nullasas"))return "Time Not Available";
-        else
+        if(inputdate==null) return "Time not Available";
         try{
             String inputDateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-            String outputDateFormat= "EEE, d MMM yyyy KK:mm";
+            String outputDateFormat= "EEE, d MMM yyyy HH:mm";
             SimpleDateFormat inputFormat = new SimpleDateFormat(inputDateFormat);
             SimpleDateFormat outputFormat = new SimpleDateFormat(outputDateFormat);
 

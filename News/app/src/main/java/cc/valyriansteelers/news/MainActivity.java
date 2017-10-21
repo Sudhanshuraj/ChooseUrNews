@@ -32,12 +32,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.concurrent.TimeUnit;
 
 import cc.valyriansteelers.news.model.Article;
 import cc.valyriansteelers.news.model.ArticlesResponse;
@@ -55,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     public static String lis = null;
     private ArrayList<Article> newsArticles = readFromSd("ChooseUrNews/data.dat");
     private Map<String,Integer> frequency = readFromSdMap("ChooseUrNews/freq.dat");
+    private Map<String,Integer> sourcemap = readFromSdMap("ChooseUrNews/sources.dat");
     private HomeNewsAdapter homeNewsAdapter = new HomeNewsAdapter(newsArticles);
     private ArrayList<String> stop = new ArrayList<String>(){
         { add("and");
@@ -71,15 +76,6 @@ public class MainActivity extends AppCompatActivity {
     };
 
     SwipeRefreshLayout mSwipeRefreshLayout;
-
-
-
-    /*public class CustomComparator {
-        public boolean compare(Article object1, Article object2) {
-            if(object1.getPriority() < object2.getPriority())
-            return object1.getStartDate().before(object2.getStartDate());
-        }
-    }*/
 
     private boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -270,18 +266,8 @@ public class MainActivity extends AppCompatActivity {
                 NewsStore.newsArticles.clear();
                 initViews();
 
-               /* Collections.sort(NewsStore.newsArticles);
+                mSwipeRefreshLayout.setRefreshing(false);
 
-
-                newsRecyclerView =  (RecyclerView) findViewById(R.id.activity_main_recyclerview);
-                newsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-                homeNewsAdapter.addHomeNewsAdapter(newsArticles);
-                homeNewsAdapter.notifyDataSetChanged();
-                newsRecyclerView.setAdapter(homeNewsAdapter);
-                Toast.makeText(MainActivity.this, "after refresh", Toast.LENGTH_SHORT).show();
-                NewsStore.setArticle(newsArticles);
-               // NewsStore.setArticle(newsArticles);
-                mSwipeRefreshLayout.setRefreshing(false);*/
             }
         });
 
@@ -300,11 +286,9 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ArticlesResponse> call, Response<ArticlesResponse> response) {
                 ArticlesResponse articlesResponse = response.body();
                 NewsStore.addArticle(articlesResponse.getArticles(),"hindu");
-                homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
-                //not written before
-                newsRecyclerView.setAdapter(homeNewsAdapter);
-
-                homeNewsAdapter.notifyDataSetChanged();
+              //  homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
+              //  homeNewsAdapter.notifyDataSetChanged();
+              //  newsRecyclerView.setAdapter(homeNewsAdapter);
             }
 
             @Override
@@ -322,9 +306,9 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ArticlesResponse> call2, Response<ArticlesResponse> response) {
                 ArticlesResponse articlesResponse = response.body();
                 NewsStore.addArticle(articlesResponse.getArticles(),"hackernews");
-                homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
-                newsRecyclerView.setAdapter(homeNewsAdapter);
-                homeNewsAdapter.notifyDataSetChanged();
+              //  homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
+              //  newsRecyclerView.setAdapter(homeNewsAdapter);
+              //  homeNewsAdapter.notifyDataSetChanged();
 
             }
 
@@ -344,9 +328,9 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ArticlesResponse> call3, Response<ArticlesResponse> response) {
                 ArticlesResponse articlesResponse = response.body();
                 NewsStore.addArticle(articlesResponse.getArticles(),"bbc");
-                homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
+                /*homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
                 newsRecyclerView.setAdapter(homeNewsAdapter);
-                homeNewsAdapter.notifyDataSetChanged();
+                homeNewsAdapter.notifyDataSetChanged();*/
             }
             @Override
             public void onFailure(Call<ArticlesResponse> call3, Throwable t) {
@@ -362,9 +346,9 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ArticlesResponse> call4, Response<ArticlesResponse> response) {
                 ArticlesResponse articlesResponse = response.body();
                 NewsStore.addArticle(articlesResponse.getArticles(),"google");
-                homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
+                /*homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
                 newsRecyclerView.setAdapter(homeNewsAdapter);
-                homeNewsAdapter.notifyDataSetChanged();
+                homeNewsAdapter.notifyDataSetChanged();*/
             }
             @Override
             public void onFailure(Call<ArticlesResponse> call4, Throwable t) {
@@ -380,9 +364,9 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ArticlesResponse> call5, Response<ArticlesResponse> response) {
                 ArticlesResponse articlesResponse = response.body();
                 NewsStore.addArticle(articlesResponse.getArticles(),"scientist");
-                homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
+                /*homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
                 newsRecyclerView.setAdapter(homeNewsAdapter);
-                homeNewsAdapter.notifyDataSetChanged();
+                homeNewsAdapter.notifyDataSetChanged();*/
             }
             @Override
             public void onFailure(Call<ArticlesResponse> call5, Throwable t) {
@@ -398,8 +382,9 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ArticlesResponse> call6, Response<ArticlesResponse> response) {
                 ArticlesResponse articlesResponse = response.body();
                 NewsStore.addArticle(articlesResponse.getArticles(),"bussiness-insider");
-                homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
+               /* homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
                 newsRecyclerView.setAdapter(homeNewsAdapter);
+                homeNewsAdapter.notifyDataSetChanged();*/
             }
             @Override
             public void onFailure(Call<ArticlesResponse> call6, Throwable t) {
@@ -415,9 +400,9 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ArticlesResponse> call7, Response<ArticlesResponse> response) {
                 ArticlesResponse articlesResponse = response.body();
                 NewsStore.addArticle(articlesResponse.getArticles(),"timesofindia");
-                homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
+                /*homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
                 newsRecyclerView.setAdapter(homeNewsAdapter);
-                homeNewsAdapter.notifyDataSetChanged();
+                homeNewsAdapter.notifyDataSetChanged();*/
             }
             @Override
             public void onFailure(Call<ArticlesResponse> call7, Throwable t) {
@@ -434,16 +419,98 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<ArticlesResponse> call8, Response<ArticlesResponse> response) {
                 ArticlesResponse articlesResponse = response.body();
                 NewsStore.addArticle(articlesResponse.getArticles(),"geographic");
-                homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
+                /*homeNewsAdapter.addHomeNewsAdapter(articlesResponse.getArticles());
                 newsRecyclerView.setAdapter(homeNewsAdapter);
-                homeNewsAdapter.notifyDataSetChanged();
+                homeNewsAdapter.notifyDataSetChanged();*/
 
                 saveToSD(newsArticles,"ChooseUrNews/data.dat");
+                sourcemap = readFromSdMap("ChooseUrNews/sources.dat");
+                frequency = readFromSdMap("ChooseUrNews/freq.dat");
+                int sizeofnewsarticle = newsArticles.size();
+                Toast.makeText(MainActivity.this,Integer.toString(sizeofnewsarticle), Toast.LENGTH_SHORT).show();
+
+                Date currentdate = new Date();
+                Date d1 = null;
+                Date d2 = null;
+                for(int prindex=0;prindex<sizeofnewsarticle;prindex++){
+
+                    String srcname =newsArticles.get(prindex).getSourcename();
+                    String ttlname = newsArticles.get(prindex).getTitle();
+                    String time=newsArticles.get(prindex).getPublishedAt();
+                    int prior = 0;
+
+                    if(time!=null) {
+                        try {
+                            String inputDateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+                            String outputDateFormat= "EEE, d MMM yyyy HH:mm";
+                            SimpleDateFormat inputFormat = new SimpleDateFormat(inputDateFormat);
+                            SimpleDateFormat outputFormat = new SimpleDateFormat(outputDateFormat);
+
+                            String sds=outputFormat.format(currentdate);
+                            d1 = outputFormat.parse(sds);
+                            d2 = inputFormat.parse(time);
+
+                            long diff = d1.getTime() - d2.getTime();
+
+                            //  int diffSeconds = (int) diff / 1000 % 60;
+                            //  int  diffMinutes =(int) diff / (60 * 1000) % 60;
+                            int diffHours = (int) (diff / (60 * 60 * 1000) % 24);
+                            int  diffDays = (int) diff / (24 * 60 * 60 * 1000);
+                            if(diffDays>1){
+                                prior= -20*diffDays;
+                            }
+                            else if(diffHours>12){
+                                prior=-12;
+                            }
+                            else if(diffHours>1){
+                                prior=-1*diffHours;
+                            }
+
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    else prior= -5;
+                    StringTokenizer ttltoken = new StringTokenizer(ttlname.toLowerCase()," ,.!-");
+                    while (ttltoken.hasMoreTokens()) {
+                        String nw = ttltoken.nextToken();
+                        if (stop.contains(nw)) {
+                            continue;
+                        }
+                        if (frequency.containsKey(nw)) {
+                            prior+=frequency.get(nw);
+                        }
+                    }
+
+
+                    if(sourcemap.containsKey(srcname)) {
+                        prior += 2*sourcemap.get(srcname);
+                    }
+
+                    newsArticles.get(prindex).setPriority(prior);
+
+                }
+
+                Collections.sort(newsArticles, new Comparator<Article>() {
+                    @Override
+                    public int compare(Article article, Article t1) {
+                        return t1.getPriority().compareTo(article.getPriority());
+                    }
+                });
+
+                saveToSD(newsArticles,"ChooseUrNews/data.dat");
+                homeNewsAdapter.addHomeNewsAdapter(newsArticles);
+                homeNewsAdapter.notifyDataSetChanged();
+                newsRecyclerView.setAdapter(homeNewsAdapter);
+                //  Toast.makeText(MainActivity.this, "after refresh", Toast.LENGTH_SHORT).show();
+                NewsStore.setArticle(newsArticles);
 
             }
             @Override
             public void onFailure(Call<ArticlesResponse> call8, Throwable t) {
                 Toast.makeText(MainActivity.this, "Error Received 3", Toast.LENGTH_SHORT).show();
+                saveToSD(newsArticles,"ChooseUrNews/data.dat");
+
 
             }
         });
@@ -483,7 +550,7 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             frequency.put(nw, 1);
                             saveToSDMap(frequency,"ChooseUrNews/freq.dat");
-                            Toast.makeText(MainActivity.this, nw, Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(MainActivity.this, nw, Toast.LENGTH_SHORT).show();
                             //System.out.println(1);
                         }
                     }
@@ -537,21 +604,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Already Present", Toast.LENGTH_SHORT).show();
                 return true;*/
 
-            case R.id.like:
-                File path = Environment.getExternalStorageDirectory();
-                File dir = new File(String.valueOf(path)+"/ChooseUrNews/like.dat");
-                if(!dir.exists()){
-                    try {
-                        dir.createNewFile();
-                        saveToSD(test,"ChooseUrNews/like.dat");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                Intent myIntent1 = new Intent(MainActivity.this,
-                        LikedActivity.class);
-                startActivity(myIntent1);
-                return true;
+
             case R.id.bookmark:
                 File path2 = Environment.getExternalStorageDirectory();
                 File dir2 = new File(String.valueOf(path2)+"/ChooseUrNews/bookmark.dat");
