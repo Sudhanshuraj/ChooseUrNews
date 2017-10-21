@@ -89,7 +89,23 @@ public class Article implements Serializable{
 
     public Integer getPriority() { return priority; }
 
-    public void setPriority(Integer newPriority) {this.priority = newPriority; }
+    public void setPriority(int newPriority) {this.priority = newPriority; }
+
+ /*   @Override
+    public int compareTo(Article comparestu) {
+        int compareage=((Article)comparestu).getPriority();
+        *//* For Ascending order*//*
+        return this.priority-compareage;
+
+        *//* For Descending order do like this *//*
+        //return compareage-this.studentage;
+    }
+
+    @Override
+    public String toString() {
+        return "[ author=" + author + ", title=" + title + ", description=" + description + ",url=" + url + ",urlToImage=" + urlToImage + ",publishedAt=" + publishedAt + ",sourcename=" + sourcename + ",priority=" + priority + "]";
+    }*/
+
 
 
 

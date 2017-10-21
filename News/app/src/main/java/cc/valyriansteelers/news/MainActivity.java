@@ -33,6 +33,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -54,7 +56,30 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Article> newsArticles = readFromSd("ChooseUrNews/data.dat");
     private Map<String,Integer> frequency = readFromSdMap("ChooseUrNews/freq.dat");
     private HomeNewsAdapter homeNewsAdapter = new HomeNewsAdapter(newsArticles);
+    private ArrayList<String> stop = new ArrayList<String>(){
+        { add("and");
+           add("at");
+           add("of");                 //should be declayered only one time otherwise everytime this will create and destroy it;
+           add("the");
+           add("is");
+           add("in");
+           add("his");
+           add("her");
+           add("...");
+
+        }
+    };
+
     SwipeRefreshLayout mSwipeRefreshLayout;
+
+
+
+    /*public class CustomComparator {
+        public boolean compare(Article object1, Article object2) {
+            if(object1.getPriority() < object2.getPriority())
+            return object1.getStartDate().before(object2.getStartDate());
+        }
+    }*/
 
     private boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -211,8 +236,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeToRefresh);
-
-        //Toast.makeText(MainActivity.this, newsArticles.size(), Toast.LENGTH_SHORT).show();
+        frequency = readFromSdMap("ChooseUrNews/freq.dat");
 
         if(!checkPermission()) {
             requestPermission();
@@ -243,9 +267,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 newsArticles.clear();
+                NewsStore.newsArticles.clear();
                 initViews();
+
+               /* Collections.sort(NewsStore.newsArticles);
+
+
+                newsRecyclerView =  (RecyclerView) findViewById(R.id.activity_main_recyclerview);
+                newsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+                homeNewsAdapter.addHomeNewsAdapter(newsArticles);
+                homeNewsAdapter.notifyDataSetChanged();
+                newsRecyclerView.setAdapter(homeNewsAdapter);
+                Toast.makeText(MainActivity.this, "after refresh", Toast.LENGTH_SHORT).show();
                 NewsStore.setArticle(newsArticles);
-                mSwipeRefreshLayout.setRefreshing(false);
+               // NewsStore.setArticle(newsArticles);
+                mSwipeRefreshLayout.setRefreshing(false);*/
             }
         });
 
@@ -433,30 +469,20 @@ public class MainActivity extends AppCompatActivity {
 
                     String titleofnews=newsArticles.get(position).getTitle();
                     StringTokenizer hello = new StringTokenizer(titleofnews.toLowerCase()," ,.!-");  //chose which one u want  for delimimator
-                    ArrayList<String> stop = new ArrayList<String>();
-                    stop.add("and");
-                    stop.add("at");
-                    stop.add("of");                 //should be declayered only one time otherwise everytime this will create and destroy it;
-                    stop.add("the");
-                    stop.add("is");
-                    stop.add("in");
-                    stop.add("his");
-                    stop.add("her");
-                    stop.add("...");
 
-                   // Map<String, Integer> myMap = new HashMap<String, Integer>();
                     while (hello.hasMoreTokens()) {
                         String nw = hello.nextToken();
                         if (stop.contains(nw)) {
                             continue;
                         }
-                        //arr.add(nw);
                         if (frequency.containsKey(nw)) {
                             int i = frequency.get(nw);
                             frequency.put(nw, i + 1);
+                            saveToSDMap(frequency,"ChooseUrNews/freq.dat");
                             //System.out.println(i+1);
                         } else {
                             frequency.put(nw, 1);
+                            saveToSDMap(frequency,"ChooseUrNews/freq.dat");
                             Toast.makeText(MainActivity.this, nw, Toast.LENGTH_SHORT).show();
                             //System.out.println(1);
                         }
@@ -465,25 +491,6 @@ public class MainActivity extends AppCompatActivity {
                     //    Toast.makeText(MainActivity.this,titleofnews, Toast.LENGTH_SHORT).show();
 
 
-
-                  /*  ArrayList<Article> ls = readFromSd("ChooseUrNews/like.dat");
-                    if (isPresent(ls, newsArticles.get(position))) {
-                        Toast.makeText(MainActivity.this, "Already Present", Toast.LENGTH_SHORT).show();
-                    } else {
-                        ls.add(newsArticles.get(position));
-                        saveToSD(ls, "ChooseUrNews/like.dat");
-                        lis = newsArticles.get(position).getSourcename();
-                        Map<String, Integer> source = readFromSdMap("ChooseUrNews/sources.txt");
-                        Integer num = source.get(lis);
-                        if (num == null) {
-                            source.put(lis, 1);
-                            saveToSDMap(source, "ChooseUrNews/sources.dat");
-                        } else {
-                            source.put(lis, num + 1);
-                            saveToSDMap(source, "ChooseUrNews/sources.dat");
-                        }
-
-                    }*/
                 }
 
 

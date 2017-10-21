@@ -45,57 +45,54 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1230">
-              <caret line="454" column="54" selection-start-line="454" selection-start-column="54" selection-end-line="454" selection-end-column="54" />
+            <state relative-caret-position="204">
+              <caret line="268" column="13" selection-start-line="268" selection-start-column="13" selection-end-line="268" selection-end-column="13" />
               <folding>
+                <element signature="class#2157:2502" expanded="false" />
                 <element signature="method#checkPermission#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#requestPermission#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#isExternalStorageWritable#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#saveToSD#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#saveToSDMap#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#readFromSd#0;class#MainActivity#0" expanded="false" />
                 <element signature="method#readFromSdMap#0;class#MainActivity#0" expanded="false" />
-                <element signature="e#5784#5801#0" expanded="true" />
                 <element signature="method#isPresent#0;class#MainActivity#0" expanded="false" />
-                <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+                <element signature="e#9023#9954#0" expanded="true" />
+                <element signature="e#9953#9954#0" expanded="true" />
                 <element signature="method#initViews#0;class#MainActivity#0" expanded="false" />
-                <element signature="class#8974:9763" expanded="false" />
-                <element signature="class#9885:10646" expanded="false" />
-                <element signature="class#10825:11567" expanded="false" />
-                <element signature="class#11688:12433" expanded="false" />
-                <element signature="class#12556:13304" expanded="false" />
-                <element signature="class#13430:14130" expanded="false" />
-                <element signature="class#14261:15012" expanded="false" />
-                <element signature="class#15142:15956" expanded="false" />
-                <element signature="e#16857#16865#0" expanded="true" />
-                <element signature="method#onChildDraw#0;class#16090:20814" expanded="false" />
+                <element signature="class#10276:11065" expanded="false" />
+                <element signature="class#11187:11948" expanded="false" />
+                <element signature="class#12127:12869" expanded="false" />
+                <element signature="class#12990:13735" expanded="false" />
+                <element signature="class#13858:14606" expanded="false" />
+                <element signature="class#14732:15432" expanded="false" />
+                <element signature="class#15563:16314" expanded="false" />
+                <element signature="class#16444:17258" expanded="false" />
+                <element signature="method#initSwipe#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#onChildDraw#0;class#17392:20622" expanded="false" />
                 <element signature="method#onOptionsItemSelected#0;class#MainActivity#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BookMarkActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/BookMarkActivity.java">
+      <file leaf-file-name="NewsStore.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/model/NewsStore.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="212" column="0" selection-start-line="212" selection-start-column="0" selection-end-line="212" selection-end-column="0" />
+            <state relative-caret-position="414">
+              <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
               <folding>
-                <element signature="method#checkPermission#0;class#BookMarkActivity#0" expanded="false" />
-                <element signature="method#requestPermission#0;class#BookMarkActivity#0" expanded="false" />
-                <element signature="method#readFromSd#0;class#BookMarkActivity#0" expanded="false" />
-                <element signature="method#saveToSD#0;class#BookMarkActivity#0" expanded="false" />
-                <element signature="method#initSwipe#0;class#BookMarkActivity#0" expanded="false" />
-                <element signature="method#onCreateOptionsMenu#0;class#BookMarkActivity#0" expanded="false" />
+                <element signature="method#addArticle#0;class#NewsStore#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NewsDetailsActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/NewsDetailsActivity.java">
+      <file leaf-file-name="Article.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/model/Article.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="78">
-              <caret line="183" column="34" selection-start-line="183" selection-start-column="34" selection-end-line="183" selection-end-column="34" />
+            <state relative-caret-position="280">
+              <caret line="90" column="0" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -2000,10 +1997,10 @@
         <option value="$PROJECT_DIR$/app/src/main/res/menu/action_share_menu.xml" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/model/Article.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/BookMarkActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/NewsDetailsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/model/NewsStore.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/BookMarkActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/model/Article.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/MainActivity.java" />
       </list>
     </option>
@@ -2013,6 +2010,28 @@
     <option name="y" value="24" />
     <option name="width" value="1315" />
     <option name="height" value="744" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Java</id>
+          </State>
+          <State>
+            <id>Java language level migration aidsJava</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Since15</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -2039,6 +2058,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -2247,12 +2268,10 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane />
       </pane>
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2266,12 +2285,8 @@
     <property name="android.project.structure.proportion" value="0.15" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
-      <recent name="$PROJECT_DIR$/app/src/main/res/menu" />
-      <recent name="$PROJECT_DIR$/app/src/main/res/layout" />
-      <recent name="$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/model" />
-      <recent name="$PROJECT_DIR$/app/src/main/res/drawable-nodpi" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="cc.valyriansteelers.news" />
     </key>
     <key name="android.template.packageName">
       <recent name="cc.valyriansteelers.news" />
@@ -2279,8 +2294,12 @@
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="cc.valyriansteelers.news" />
     </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="cc.valyriansteelers.news" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
+      <recent name="$PROJECT_DIR$/app/src/main/res/menu" />
+      <recent name="$PROJECT_DIR$/app/src/main/res/layout" />
+      <recent name="$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/model" />
+      <recent name="$PROJECT_DIR$/app/src/main/res/drawable-nodpi" />
     </key>
   </component>
   <component name="RunManager" selected="Android App.app">
@@ -2627,7 +2646,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="51" y="24" width="1315" height="744" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290938" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3280757" sideWeight="0.4972549" order="12" side_tool="false" content_ui="tabs" />
@@ -2636,7 +2655,6 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3280757" sideWeight="0.5090196" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290938" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32862744" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3280757" sideWeight="0.4909804" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290938" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3280757" sideWeight="0.4972549" order="10" side_tool="false" content_ui="tabs" />
@@ -2657,6 +2675,7 @@
       <window_info id="Find Sample Code" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329653" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32862744" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3280757" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -2677,15 +2696,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/MainActivity.java</url>
-          <line>520</line>
-          <properties />
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="13" />
+      <option name="time" value="16" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -2856,19 +2867,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/model/Article.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="25" column="34" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
-          <folding>
-            <element signature="e#1706#1707#0" expanded="true" />
-            <element signature="e#1740#1741#0" expanded="true" />
-            <element signature="e#1790#1791#0" expanded="true" />
-            <element signature="e#1834#1835#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -2897,20 +2895,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/model/NewsStore.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="11" column="24" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/LikedActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="196">
           <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2934,18 +2924,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/NewsDetailsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="183" column="34" selection-start-line="183" selection-start-column="34" selection-end-line="183" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/BookMarkActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="212" column="0" selection-start-line="212" selection-start-column="0" selection-end-line="212" selection-end-column="0" />
+        <state relative-caret-position="45">
+          <caret line="128" column="42" selection-start-line="128" selection-start-column="42" selection-end-line="128" selection-end-column="42" />
           <folding>
             <element signature="method#checkPermission#0;class#BookMarkActivity#0" expanded="false" />
             <element signature="method#requestPermission#0;class#BookMarkActivity#0" expanded="false" />
@@ -2957,31 +2939,62 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/NewsDetailsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="118" column="62" selection-start-line="118" selection-start-column="62" selection-end-line="118" selection-end-column="62" />
+          <folding>
+            <element signature="method#saveToSD#0;class#NewsDetailsActivity#0" expanded="false" />
+            <element signature="method#readFromSd#0;class#NewsDetailsActivity#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/model/NewsStore.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+          <folding>
+            <element signature="method#addArticle#0;class#NewsStore#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/model/Article.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="90" column="0" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/cc/valyriansteelers/news/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1230">
-          <caret line="454" column="54" selection-start-line="454" selection-start-column="54" selection-end-line="454" selection-end-column="54" />
+        <state relative-caret-position="204">
+          <caret line="268" column="13" selection-start-line="268" selection-start-column="13" selection-end-line="268" selection-end-column="13" />
           <folding>
+            <element signature="class#2157:2502" expanded="false" />
             <element signature="method#checkPermission#0;class#MainActivity#0" expanded="false" />
             <element signature="method#requestPermission#0;class#MainActivity#0" expanded="false" />
             <element signature="method#isExternalStorageWritable#0;class#MainActivity#0" expanded="false" />
             <element signature="method#saveToSD#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#saveToSDMap#0;class#MainActivity#0" expanded="false" />
             <element signature="method#readFromSd#0;class#MainActivity#0" expanded="false" />
             <element signature="method#readFromSdMap#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#5784#5801#0" expanded="true" />
             <element signature="method#isPresent#0;class#MainActivity#0" expanded="false" />
-            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="e#9023#9954#0" expanded="true" />
+            <element signature="e#9953#9954#0" expanded="true" />
             <element signature="method#initViews#0;class#MainActivity#0" expanded="false" />
-            <element signature="class#8974:9763" expanded="false" />
-            <element signature="class#9885:10646" expanded="false" />
-            <element signature="class#10825:11567" expanded="false" />
-            <element signature="class#11688:12433" expanded="false" />
-            <element signature="class#12556:13304" expanded="false" />
-            <element signature="class#13430:14130" expanded="false" />
-            <element signature="class#14261:15012" expanded="false" />
-            <element signature="class#15142:15956" expanded="false" />
-            <element signature="e#16857#16865#0" expanded="true" />
-            <element signature="method#onChildDraw#0;class#16090:20814" expanded="false" />
+            <element signature="class#10276:11065" expanded="false" />
+            <element signature="class#11187:11948" expanded="false" />
+            <element signature="class#12127:12869" expanded="false" />
+            <element signature="class#12990:13735" expanded="false" />
+            <element signature="class#13858:14606" expanded="false" />
+            <element signature="class#14732:15432" expanded="false" />
+            <element signature="class#15563:16314" expanded="false" />
+            <element signature="class#16444:17258" expanded="false" />
+            <element signature="method#initSwipe#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onChildDraw#0;class#17392:20622" expanded="false" />
             <element signature="method#onOptionsItemSelected#0;class#MainActivity#0" expanded="false" />
           </folding>
         </state>
