@@ -1,6 +1,7 @@
 package cc.valyriansteelers.news;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -136,7 +137,7 @@ public class BookMarkActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.bookmark_main);
         if(!checkPermission())
             requestPermission();
         initViews();
@@ -210,8 +211,11 @@ public class BookMarkActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.home:
-                this.finish();
+                finish();
+                ArrayList<Article> ls = readFromSd("ChooseUrNews/data.dat");
+                NewsStore.setArticle(ls);
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

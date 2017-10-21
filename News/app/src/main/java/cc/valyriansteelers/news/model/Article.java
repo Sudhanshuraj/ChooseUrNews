@@ -5,6 +5,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 public class Article implements Serializable{
 
@@ -30,7 +31,7 @@ public class Article implements Serializable{
     @Expose
     private String sourcename;
 
-    private Integer priority = 0;
+    private Integer priority ;
 
     public String getAuthor() {
         return author;

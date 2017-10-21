@@ -121,10 +121,12 @@ public class NewsDetailsActivity extends AppCompatActivity {
         webView = (WebView) findViewById(R.id.activity_newsDetail_webview);
         progressBar = (ProgressBar) findViewById(R.id.activity_newsDetail_progressbar);
 
+
         int index = getIntent().getIntExtra(KEY_INDEX,-1);
         if(index != -1){
             updateNewsdetails(index);
-            Toast.makeText(NewsDetailsActivity.this,NewsStore.getNewsArticles().get(index).getSourcename(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, Integer.toString(NewsStore.getNewsArticles().get(index).getPriority()), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(NewsDetailsActivity.this,NewsStore.getNewsArticles().get(index).getSourcename(), Toast.LENGTH_SHORT).show();
         }
         else{
             Toast.makeText(NewsDetailsActivity.this, "Sorry, Incorrect index passed", Toast.LENGTH_SHORT).show();
@@ -194,23 +196,23 @@ public class NewsDetailsActivity extends AppCompatActivity {
             case R.id.addbookmark:
                 ArrayList<Article> bk = readFromSd("ChooseUrNews/bookmark.dat");
                 int indexi = getIntent().getIntExtra(KEY_INDEX, -1);
-                if (isPresent(bk, NewsStore.getNewsArticles().get(indexi))) {
-                    Toast.makeText(NewsDetailsActivity.this, "Already Present", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    bk.add(NewsStore.getNewsArticles().get(indexi));
-                    saveToSD(bk, "ChooseUrNews/bookmark.dat");
-                    Toast.makeText(NewsDetailsActivity.this, "Bookmarked", Toast.LENGTH_SHORT).show();
+                if(indexi != -1) {
+                    if (isPresent(bk, NewsStore.getNewsArticles().get(indexi))) {
+                        Toast.makeText(NewsDetailsActivity.this, "Already Present", Toast.LENGTH_SHORT).show();
+                    } else {
+                        bk.add(NewsStore.getNewsArticles().get(indexi));
+                        saveToSD(bk, "ChooseUrNews/bookmark.dat");
+                        Toast.makeText(NewsDetailsActivity.this, "Bookmarked", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 return true;
+
             case android.R.id.home:
-                finish();
+                this.finish();
                 return true;
-
-
-            default:
-            return super.onOptionsItemSelected(item);
         }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }
