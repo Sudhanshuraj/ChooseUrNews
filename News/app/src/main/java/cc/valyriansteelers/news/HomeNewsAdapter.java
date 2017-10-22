@@ -43,6 +43,12 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.HomeNe
         }
 
     }
+
+    public void modifyadapter(Article arc, Integer index){
+        this.newsArticles.set(index, arc);
+        notifyItemChanged(index);
+
+    }
     @Override
     public HomeNewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_news, parent,false);
@@ -51,10 +57,10 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.HomeNe
     }
 
     @Override
-    public void onBindViewHolder(HomeNewsViewHolder holder, final int position) {
+    public void onBindViewHolder(final HomeNewsViewHolder holder, final int position) {
         RequestOptions options = new RequestOptions();
         options.centerCrop();
-        Article newsArticle = newsArticles.get(position);
+        final Article newsArticle = newsArticles.get(position);
         Glide.with(holder.cardImageView.getContext()).load(newsArticle.getUrlToImage())
                 .apply(options)
                 .into(holder.cardImageView);
@@ -63,10 +69,12 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.HomeNe
         holder.cardTimeTextView.setText(DateUtils.formatNewsApiDAte(newsArticle.getPublishedAt()));
 
         holder.cardDetailsTextView.setText(newsArticle.getDescription());
+        holder.cardEstimatedTimeTextView.setText(newsArticle.getEstimatedTime());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NewsDetailsActivity.launch(view.getContext(), position);
+
 
             }
         });
@@ -86,6 +94,7 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.HomeNe
         TextView cardTitleTextView;
         TextView cardTimeTextView;
         TextView cardDetailsTextView;
+        TextView cardEstimatedTimeTextView;
 
 
         public HomeNewsViewHolder(View itemView) {
@@ -94,6 +103,7 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.HomeNe
             cardTitleTextView = (TextView) itemView.findViewById(R.id.news_title);
             cardTimeTextView = (TextView) itemView.findViewById(R.id.news_time);
             cardDetailsTextView = (TextView) itemView.findViewById(R.id.news_description);
+            cardEstimatedTimeTextView = (TextView) itemView.findViewById(R.id.news_count);
 
         }
     }

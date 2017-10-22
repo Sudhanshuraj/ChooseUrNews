@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -24,6 +25,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import org.jsoup.Jsoup;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -35,7 +38,10 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.Reader;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,6 +52,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.concurrent.ExecutionException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cc.valyriansteelers.news.model.Article;
 import cc.valyriansteelers.news.model.ArticlesResponse;
@@ -64,13 +73,72 @@ public class MainActivity extends AppCompatActivity {
     private Paint p=new Paint();
     public static ArrayList<Article> test = new ArrayList<>();
     public static String lis = null;
-    private ArrayList<Article> newsArrticles = readFromSd("ChooseUrNews/data.dat");
+    private ArrayList<Article> newsArrticles = new ArrayList<>();
     private HomeNewsAdapter homeNewsAdapter = new HomeNewsAdapter(newsArrticles);
     SwipeRefreshLayout mSwipeRefreshLayout;
     ArrayList<String> stop = new ArrayList<String>(Arrays.asList("and", "at", "of", "the", "is", "in", "his", "her", "a", "there"));
 
 
     //--------------------------------------------------------
+
+
+    private class MyTask extends AsyncTask<Article, Void, Article> {
+        String textResult;
+        @Override
+        protected Article doInBackground(Article... params) {
+            URL textUrl;
+            Article arc = params[0];
+            String textSource = arc.getUrl();
+            try{
+                textUrl = new URL(textSource);
+                BufferedReader bufferedReader = new BufferedReader(
+                        new InputStreamReader(textUrl.openStream()));
+
+                String stringBuffer;
+                String stringText = "";
+
+                while((stringBuffer = bufferedReader.readLine()) != null) {
+                    stringText += stringBuffer;
+                }
+                bufferedReader.close();
+                textResult = stringText;
+            }
+            catch(MalformedURLException e) {
+                e.printStackTrace();
+                textResult = e.toString();
+            }
+            catch(IOException e){
+                e.printStackTrace();
+                textResult = e.toString();
+            }
+            int count = 0;
+            try {
+                count = countWords(textResult);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if(count<300){
+                arc.setEstimatedTime( "less than 1 min read" );
+            }
+             else{
+                arc.setEstimatedTime(Integer.toString(count/300) + " min read" );
+            }
+            return arc;
+
+        }
+
+        @Override
+        protected void onPostExecute(Article aVoid) {
+            super.onPostExecute(aVoid);
+        }
+    }
+
+    private int countWords(String html) throws Exception {
+        org.jsoup.nodes.Document dom = Jsoup.parse(html);
+        String text = dom.text();
+
+        return text.split(" ").length;
+    }
 
     private boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -236,14 +304,16 @@ public class MainActivity extends AppCompatActivity {
 
         if(!checkPermission()) {
             requestPermission();
-            onCreate(savedInstanceState);
         }
 
         File path = Environment.getExternalStorageDirectory();
         File dir = new File(String.valueOf(path)+"/ChooseUrNews");
         if (!dir.exists()) {
             dir.mkdir();
+            initViews();
         }
+        newsArrticles.clear();
+        newsArrticles.addAll(readFromSd("ChooseUrNews/data.dat"));
 
         if(newsArrticles.isEmpty()) {
             initViews();
@@ -255,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
             homeNewsAdapter.addHomeNewsAdapter(newsArrticles);
             homeNewsAdapter.notifyDataSetChanged();
             newsRecyclerView.setAdapter(homeNewsAdapter);
-            Toast.makeText(MainActivity.this, "loaded from internal storage", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "loaded saved news", Toast.LENGTH_SHORT).show();
             initSwipe();
         }
 
@@ -276,15 +346,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
-
     private void initViews(){
         newsRecyclerView =  (RecyclerView) findViewById(R.id.activity_main_recyclerview);
         newsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-        Call<ArticlesResponse> call = NewsAPI.getApi().getArticles("the-hindu", "top");
+        Call<ArticlesResponse> call = NewsAPI.getApi().getArticles("the-hindu", "latest");
         call.enqueue(new Callback<ArticlesResponse>() {
             @Override
             public void onResponse(Call<ArticlesResponse> call, Response<ArticlesResponse> response) {
@@ -294,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ArticlesResponse> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Error Received the-hindu", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Error Received the-hindu", Toast.LENGTH_SHORT).show();
 
 
             }
@@ -312,13 +379,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ArticlesResponse> call2, Throwable t) {
-                Toast.makeText(MainActivity.this, "Error Received hacker-news", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Error Received hacker-news", Toast.LENGTH_SHORT).show();
 
 
             }
         });
-
-        //can delete espn as it creates only 1 news-article
 
         Call<ArticlesResponse> call3 = NewsAPI.getApi().getArticles("bbc-news", "top");
         call3.enqueue(new Callback<ArticlesResponse>() {
@@ -329,7 +394,7 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<ArticlesResponse> call3, Throwable t) {
-                Toast.makeText(MainActivity.this, "Error Received 3", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Error Received 3", Toast.LENGTH_SHORT).show();
 
 
             }
@@ -365,16 +430,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Call<ArticlesResponse> call6 = NewsAPI.getApi().getArticles("business-insider", "top");
+        Call<ArticlesResponse> call6 = NewsAPI.getApi().getArticles("espn-cric-info", "latest");
         call6.enqueue(new Callback<ArticlesResponse>() {
             @Override
             public void onResponse(Call<ArticlesResponse> call6, Response<ArticlesResponse> response) {
                 ArticlesResponse articlesResponse = response.body();
-                NewsStore.addArticle(articlesResponse.getArticles(),"bussiness-insider");
+                NewsStore.addArticle(articlesResponse.getArticles(),"espn");
             }
             @Override
             public void onFailure(Call<ArticlesResponse> call6, Throwable t) {
-                Toast.makeText(MainActivity.this, "Error Received 3", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(MainActivity.this, "Error Received 3", Toast.LENGTH_SHORT).show();
 
 
             }
@@ -389,12 +454,101 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<ArticlesResponse> call7, Throwable t) {
-                Toast.makeText(MainActivity.this, "Error Received 3", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Error Received", Toast.LENGTH_SHORT).show();
 
 
             }
         });
 
+        Call<ArticlesResponse> call9 = NewsAPI.getApi().getArticles("techradar", "latest");
+        call9.enqueue(new Callback<ArticlesResponse>() {
+            @Override
+            public void onResponse(Call<ArticlesResponse> call9, Response<ArticlesResponse> response) {
+                ArticlesResponse articlesResponse = response.body();
+                NewsStore.addArticle(articlesResponse.getArticles(),"techradar");
+            }
+            @Override
+            public void onFailure(Call<ArticlesResponse> call9, Throwable t) {
+                //Toast.makeText(MainActivity.this, "Error Received 3", Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+
+        Call<ArticlesResponse> call10 = NewsAPI.getApi().getArticles("the-sport-bible", "top");
+        call10.enqueue(new Callback<ArticlesResponse>() {
+            @Override
+            public void onResponse(Call<ArticlesResponse> call10, Response<ArticlesResponse> response) {
+                ArticlesResponse articlesResponse = response.body();
+                NewsStore.addArticle(articlesResponse.getArticles(),"the-sport-bible");
+            }
+            @Override
+            public void onFailure(Call<ArticlesResponse> call10, Throwable t) {
+               // Toast.makeText(MainActivity.this, "Error Received 3", Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+
+        Call<ArticlesResponse> call11 = NewsAPI.getApi().getArticles("entertainment-weekly", "top");
+        call11.enqueue(new Callback<ArticlesResponse>() {
+            @Override
+            public void onResponse(Call<ArticlesResponse> call11, Response<ArticlesResponse> response) {
+                ArticlesResponse articlesResponse = response.body();
+                NewsStore.addArticle(articlesResponse.getArticles(),"entertainment-weekly");
+            }
+            @Override
+            public void onFailure(Call<ArticlesResponse> call11, Throwable t) {
+                //.makeText(MainActivity.this, "Error Received 3", Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+
+        Call<ArticlesResponse> call12 = NewsAPI.getApi().getArticles("the-wall-street-journal", "top");
+        call12.enqueue(new Callback<ArticlesResponse>() {
+            @Override
+            public void onResponse(Call<ArticlesResponse> call12, Response<ArticlesResponse> response) {
+                ArticlesResponse articlesResponse = response.body();
+                NewsStore.addArticle(articlesResponse.getArticles(),"the-wall-street-journal");
+            }
+            @Override
+            public void onFailure(Call<ArticlesResponse> call12, Throwable t) {
+                //.makeText(MainActivity.this, "Error Received 3", Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+
+        Call<ArticlesResponse> call13 = NewsAPI.getApi().getArticles("reddit-r-all", "top");
+        call13.enqueue(new Callback<ArticlesResponse>() {
+            @Override
+            public void onResponse(Call<ArticlesResponse> call13, Response<ArticlesResponse> response) {
+                ArticlesResponse articlesResponse = response.body();
+                NewsStore.addArticle(articlesResponse.getArticles(),"reddit-r-all");
+            }
+            @Override
+            public void onFailure(Call<ArticlesResponse> call13, Throwable t) {
+                //.makeText(MainActivity.this, "Error Received 3", Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+
+        Call<ArticlesResponse> call14 = NewsAPI.getApi().getArticles("recode", "top");
+        call14.enqueue(new Callback<ArticlesResponse>() {
+            @Override
+            public void onResponse(Call<ArticlesResponse> call14, Response<ArticlesResponse> response) {
+                ArticlesResponse articlesResponse = response.body();
+                NewsStore.addArticle(articlesResponse.getArticles(),"recode");
+            }
+            @Override
+            public void onFailure(Call<ArticlesResponse> call14, Throwable t) {
+                //.makeText(MainActivity.this, "Error Received 3", Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
 
         Call<ArticlesResponse> call8 = NewsAPI.getApi().getArticles("national-geographic", "top");
         call8.enqueue(new Callback<ArticlesResponse>() {
@@ -403,10 +557,11 @@ public class MainActivity extends AppCompatActivity {
                 ArticlesResponse articlesResponse = response.body();
                 NewsStore.addArticle(articlesResponse.getArticles(),"geographic");
 
+
                 Map<String, Integer> sourcemap = readFromSdMap("ChooseUrNews/sources.dat");
                 Map<String, Integer> frequency = readFromSdMap("ChooseUrNews/freq.dat");
+                ArrayList<Article> readArticles = readFromSd("ChooseUrNews/read.dat");
                 int sizeofnewsarticle = newsArrticles.size();
-                //Toast.makeText(MainActivity.this,Integer.toString(sizeofnewsarticle), Toast.LENGTH_SHORT).show();
 
                 Date currentdate = new Date();
                 Date d1 = null;
@@ -464,6 +619,10 @@ public class MainActivity extends AppCompatActivity {
                         prior += 2*sourcemap.get(srcname);
                     }
 
+                    if(isPresent(readArticles,newsArrticles.get(prindex))){
+                        prior-= 40;
+                    }
+
                     newsArrticles.get(prindex).setPriority(prior);
 
                 }
@@ -480,71 +639,79 @@ public class MainActivity extends AppCompatActivity {
                 homeNewsAdapter.addHomeNewsAdapter(newsArrticles);
                 homeNewsAdapter.notifyDataSetChanged();
                 newsRecyclerView.setAdapter(homeNewsAdapter);
+                for(int i = 0 ;i < NewsStore.newsArticles.size(); i++){
+                    new MyTask().execute(NewsStore.newsArticles.get(i));
+                    homeNewsAdapter.modifyadapter(NewsStore.newsArticles.get(i),i);
+                    homeNewsAdapter.notifyItemChanged(i);
+                    homeNewsAdapter.notifyDataSetChanged();
+                    newsRecyclerView.setAdapter(homeNewsAdapter);
+                }
 
             }
             @Override
             public void onFailure(Call<ArticlesResponse> call8, Throwable t) {
-                Toast.makeText(MainActivity.this, "Error Received 3", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Error Received", Toast.LENGTH_SHORT).show();
 
                 Map<String, Integer> sourcemap = readFromSdMap("ChooseUrNews/sources.dat");
                 Map<String, Integer> frequency = readFromSdMap("ChooseUrNews/freq.dat");
+                ArrayList<Article> readArticles = readFromSd("ChooseUrNews/read.dat");
                 int sizeofnewsarticle = newsArrticles.size();
-                //Toast.makeText(MainActivity.this,Integer.toString(sizeofnewsarticle), Toast.LENGTH_SHORT).show();
 
                 Date currentdate = new Date();
                 Date d1 = null;
                 Date d2 = null;
-                for(int prindex=0;prindex<sizeofnewsarticle;prindex++){
+                for (int prindex = 0; prindex < sizeofnewsarticle; prindex++) {
 
-                    String srcname =newsArrticles.get(prindex).getSourcename();
+                    String srcname = newsArrticles.get(prindex).getSourcename();
                     String ttlname = newsArrticles.get(prindex).getTitle();
-                    String time=newsArrticles.get(prindex).getPublishedAt();
+                    String time = newsArrticles.get(prindex).getPublishedAt();
                     int prior = 0;
 
-                    if(time!=null) {
+                    if (time != null) {
                         try {
                             String inputDateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-                            String outputDateFormat= "EEE, d MMM yyyy HH:mm";
+                            String outputDateFormat = "EEE, d MMM yyyy HH:mm";
                             SimpleDateFormat inputFormat = new SimpleDateFormat(inputDateFormat);
                             SimpleDateFormat outputFormat = new SimpleDateFormat(outputDateFormat);
 
-                            String sds=outputFormat.format(currentdate);
+                            String sds = outputFormat.format(currentdate);
                             d1 = outputFormat.parse(sds);
                             d2 = inputFormat.parse(time);
 
                             long diff = d1.getTime() - d2.getTime();
 
                             int diffHours = (int) (diff / (60 * 60 * 1000) % 24);
-                            int  diffDays = (int) diff / (24 * 60 * 60 * 1000);
-                            if(diffDays>1){
-                                prior= -20*diffDays;
-                            }
-                            else if(diffHours>12){
-                                prior=-12;
-                            }
-                            else if(diffHours>1){
-                                prior=-1*diffHours;
+                            int diffDays = (int) diff / (24 * 60 * 60 * 1000);
+                            if (diffDays > 1) {
+                                prior = -20 * diffDays;
+                            } else if (diffHours > 12) {
+                                prior = -12;
+                            } else if (diffHours > 1) {
+                                prior = -1 * diffHours;
                             }
 
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-                    }
-                    else prior= -5;
-                    StringTokenizer ttltoken = new StringTokenizer(ttlname.toLowerCase()," ,.!-");
+                    } else prior = -5;
+                    StringTokenizer ttltoken = new StringTokenizer(ttlname.toLowerCase(), " ,.!-");
                     while (ttltoken.hasMoreTokens()) {
                         String nw = ttltoken.nextToken();
                         if (stop.contains(nw)) {
                             continue;
                         }
                         if (frequency.containsKey(nw)) {
-                            prior+=frequency.get(nw);
+                            prior += frequency.get(nw);
                         }
                     }
 
 
-                    if(sourcemap.containsKey(srcname)) {
-                        prior += 2*sourcemap.get(srcname);
+                    if (sourcemap.containsKey(srcname)) {
+                        prior += 2 * sourcemap.get(srcname);
+                    }
+
+                    if (isPresent(readArticles, newsArrticles.get(prindex))) {
+                        prior -= 40;
                     }
 
                     newsArrticles.get(prindex).setPriority(prior);
@@ -558,16 +725,20 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-                saveToSD(newsArrticles,"ChooseUrNews/data.dat");
+                saveToSD(newsArrticles, "ChooseUrNews/data.dat");
                 NewsStore.setArticle(newsArrticles);
                 homeNewsAdapter.addHomeNewsAdapter(newsArrticles);
                 homeNewsAdapter.notifyDataSetChanged();
                 newsRecyclerView.setAdapter(homeNewsAdapter);
-
+                for (int i = 0; i < NewsStore.newsArticles.size(); i++) {
+                    new MyTask().execute(NewsStore.newsArticles.get(i));
+                    homeNewsAdapter.modifyadapter(NewsStore.newsArticles.get(i), i);
+                    homeNewsAdapter.notifyItemChanged(i);
+                    homeNewsAdapter.notifyDataSetChanged();
+                    newsRecyclerView.setAdapter(homeNewsAdapter);
+                }
             }
         });
-
-
 
         initSwipe();
 
@@ -576,9 +747,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void afterSwipe(Article article){
-        String src = article.getSourcename();
+        String lis = article.getSourcename();
         Map<String, Integer> source = readFromSdMap("ChooseUrNews/sources.dat");
-        Integer num = source.get(src);
+        Integer num = source.get(lis);
         if (num == null) {
             source.put(lis, 1);
             saveToSDMap(source, "ChooseUrNews/sources.dat");
@@ -633,7 +804,6 @@ public class MainActivity extends AppCompatActivity {
                         saveToSD(ls, "ChooseUrNews/like.dat");
                         afterSwipe(newsArrticles.get(position));
 
-
                     }
 
                     newsArrticles.remove(newsArrticles.get(position));
@@ -682,6 +852,8 @@ public class MainActivity extends AppCompatActivity {
 
 
             case R.id.bookmark:
+                if(!checkPermission())
+                    requestPermission();
                 File path2 = Environment.getExternalStorageDirectory();
                 File dir2 = new File(String.valueOf(path2)+"/ChooseUrNews/bookmark.dat");
                 if(!dir2.exists()){

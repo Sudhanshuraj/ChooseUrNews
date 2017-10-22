@@ -30,6 +30,9 @@ public class Article implements Serializable{
     @SerializedName("sourcename")
     @Expose
     private String sourcename;
+    @SerializedName("estimatedTime")
+    @Expose
+    private String estimatedTime;
 
     private Integer priority ;
 
@@ -84,6 +87,7 @@ public class Article implements Serializable{
     public String getSourcename(){
         return  sourcename;
     }
+
     public void setSourcename(String sourcename){
         this.sourcename = sourcename;
     }
@@ -91,6 +95,13 @@ public class Article implements Serializable{
     public Integer getPriority() { return priority; }
 
     public void setPriority(Integer newPriority) {this.priority = newPriority; }
+
+    public String getEstimatedTime() {return estimatedTime;}
+
+    public void setEstimatedTime(String estimatedTime) {
+        this.estimatedTime = estimatedTime;
+    }
+
 
 
 

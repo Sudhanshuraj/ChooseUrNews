@@ -32,13 +32,12 @@ public class NewsStore {
         for (int i = 0; i < newsArtticles.size(); i++) {
             n=newsArtticles.get(i);
             n.setSourcename(source);
+            n.setEstimatedTime("Loading...");
             int ind=newsArticles.indexOf(newsArtticles.get(i));
-            //if(newsArticles.contains(newsArtticles.get(i)))
             if(ind==-1)
                 NewsStore.newsArticles.add(n);
 
         }
-        //NewsStore.newsArticles.addAll(newsArtticles);
     }
 
 
