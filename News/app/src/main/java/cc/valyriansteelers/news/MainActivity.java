@@ -2,7 +2,9 @@ package cc.valyriansteelers.news;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +16,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -68,13 +71,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static java.lang.String.valueOf;
+
 
 public class MainActivity extends AppCompatActivity {
     //variable declaration
 
     private static final int PERMISSION_REQUEST_CODE = 1;
+    private static final int testBox = 0;
     private RecyclerView newsRecyclerView;
-    private Paint p=new Paint();
+    private Paint p = new Paint();
     public static ArrayList<Article> test = new ArrayList<>();
     public static String lis = null;
     private ArrayList<Article> newsArrticles = new ArrayList<>();
@@ -93,15 +99,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**Background Task of calculating estimated time of reading of an article*/
+    /**
+     * Background Task of calculating estimated time of reading of an article
+     */
     private class MyTask extends AsyncTask<Article, Void, Article> {
         String textResult;
+
         @Override
         protected Article doInBackground(Article... params) {
             URL textUrl;
             Article arc = params[0];
             String textSource = arc.getUrl();
-            try{
+            try {
                 textUrl = new URL(textSource);
                 BufferedReader bufferedReader = new BufferedReader(
                         new InputStreamReader(textUrl.openStream()));
@@ -109,17 +118,15 @@ public class MainActivity extends AppCompatActivity {
                 String stringBuffer;
                 String stringText = "";
 
-                while((stringBuffer = bufferedReader.readLine()) != null) {
+                while ((stringBuffer = bufferedReader.readLine()) != null) {
                     stringText += stringBuffer;
                 }
                 bufferedReader.close();
                 textResult = stringText;
-            }
-            catch(MalformedURLException e) {
+            } catch (MalformedURLException e) {
                 e.printStackTrace();
                 textResult = e.toString();
-            }
-            catch(IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
                 textResult = e.toString();
             }
@@ -129,12 +136,11 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if(count<300){
-                arc.setEstimatedTime( "1 min read" );
-            }
-             else{
-                int tont = Math.round(count/300);
-                arc.setEstimatedTime(Integer.toString(tont) + " min read" );
+            if (count < 300) {
+                arc.setEstimatedTime("1 min read");
+            } else {
+                int tont = Math.round(count / 300);
+                arc.setEstimatedTime(Integer.toString(tont) + " min read");
             }
 
             return arc;
@@ -154,7 +160,9 @@ public class MainActivity extends AppCompatActivity {
         return text.split(" ").length;
     }
 
-    /**Checks whether permission is granted to read and write on storage*/
+    /**
+     * Checks whether permission is granted to read and write on storage
+     */
     private boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (result == PackageManager.PERMISSION_GRANTED) {
@@ -164,7 +172,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**If Read and Write Permission isn't granted then it asks for permission*/
+    /**
+     * If Read and Write Permission isn't granted then it asks for permission
+     */
     private void requestPermission() {
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
@@ -181,67 +191,73 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**Function for saving Array of NewsArticles on Storage*/
-    void saveToSD(ArrayList<Article> articles,String dest) {
+    /**
+     * Function for saving Array of NewsArticles on Storage
+     */
+    void saveToSD(ArrayList<Article> articles, String dest) {
 
         if (isExternalStorageWritable()) {
             File path = Environment.getExternalStorageDirectory();
-                try {
-                    File dir = new File(String.valueOf(path)+"/ChooseUrNews");
-                    if (!dir.exists()) {
-                        dir.mkdir();
-                    }
-                    FileOutputStream fos =
-                            new FileOutputStream(
-                                    new File(path, dest)
-                            );
-                    ObjectOutputStream os = new ObjectOutputStream(fos);
-                    os.writeObject(articles);
-                    os.close();
-                    
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    System.out.println(ex.getMessage());
+            try {
+                File dir = new File(valueOf(path) + "/ChooseUrNews");
+                if (!dir.exists()) {
+                    dir.mkdir();
                 }
+                FileOutputStream fos =
+                        new FileOutputStream(
+                                new File(path, dest)
+                        );
+                ObjectOutputStream os = new ObjectOutputStream(fos);
+                os.writeObject(articles);
+                os.close();
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.out.println(ex.getMessage());
+            }
 
         }
     }
 
-    /**Function for saving Map of some data on Storage*/
-    void saveToSDMap(Map<String, Integer> source,String dest) {
+    /**
+     * Function for saving Map of some data on Storage
+     */
+    void saveToSDMap(Map<String, Integer> source, String dest) {
 
         if (isExternalStorageWritable()) {
             File path = Environment.getExternalStorageDirectory();
-                try {
-                    File dir = new File(String.valueOf(path)+"/ChooseUrNews");
-                    if (!dir.exists()) {
-                        dir.mkdir();
-                    }
-                    FileOutputStream fos =
-                            new FileOutputStream(
-                                    new File(path, dest)
-                            );
-                    ObjectOutputStream os = new ObjectOutputStream(fos);
-                    os.writeObject(source);
-                    os.close();
-                    
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    System.out.println(ex.getMessage());
-                    
+            try {
+                File dir = new File(valueOf(path) + "/ChooseUrNews");
+                if (!dir.exists()) {
+                    dir.mkdir();
                 }
+                FileOutputStream fos =
+                        new FileOutputStream(
+                                new File(path, dest)
+                        );
+                ObjectOutputStream os = new ObjectOutputStream(fos);
+                os.writeObject(source);
+                os.close();
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.out.println(ex.getMessage());
+
+            }
         }
     }
 
-    /**Function for reading Array of NewsArticles from Storage*/
+    /**
+     * Function for reading Array of NewsArticles from Storage
+     */
     public static ArrayList<Article> readFromSd(String dest) {
 
         ArrayList<Article> savedArrayList = new ArrayList<>();
-        if(isExternalStorageWritable()) {
+        if (isExternalStorageWritable()) {
             File path = Environment.getExternalStorageDirectory();
 
             try {
-                File dir = new File(String.valueOf(path)+"/ChooseUrNews");
+                File dir = new File(valueOf(path) + "/ChooseUrNews");
                 if (!dir.exists()) {
                     dir.mkdir();
                 }
@@ -261,55 +277,233 @@ public class MainActivity extends AppCompatActivity {
             return savedArrayList;
 
 
-        }
-        else {
-            
+        } else {
+
             return savedArrayList;
         }
     }
 
-    /**Function for reading Map of some data from Storage*/
-    public static Map<String ,Integer> readFromSdMap(String dest) {
+    /**
+     * Function for reading Map of some data from Storage
+     */
+    public static Map<String, Integer> readFromSdMap(String dest) {
 
-        Map<String,Integer> source = new HashMap<String, Integer>();
-        if(isExternalStorageWritable()) {
+        Map<String, Integer> source = new HashMap<String, Integer>();
+        if (isExternalStorageWritable()) {
             File path = Environment.getExternalStorageDirectory();
 
-                try {
-                    File dir = new File(String.valueOf(path)+"/ChooseUrNews");
-                    if (!dir.exists()) {
-                        dir.mkdir();
-                    }
-                    FileInputStream fis =
-                            new FileInputStream(
-                                    new File(path, dest)
-                            );
-                    ObjectInputStream is = new ObjectInputStream(fis);
-                    source = (Map<String, Integer>) is.readObject();
-                    is.close();
-                    fis.close();
-
-                } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
+            try {
+                File dir = new File(valueOf(path) + "/ChooseUrNews");
+                if (!dir.exists()) {
+                    dir.mkdir();
                 }
+                FileInputStream fis =
+                        new FileInputStream(
+                                new File(path, dest)
+                        );
+                ObjectInputStream is = new ObjectInputStream(fis);
+                source = (Map<String, Integer>) is.readObject();
+                is.close();
+                fis.close();
 
-                return source;
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
 
-        }
-        else {
+            return source;
+
+        } else {
             return source;
         }
     }
 
-    public static boolean isPresent(ArrayList<Article> list, Article toCheck){
+    public static boolean isPresent(ArrayList<Article> list, Article toCheck) {
         int n = list.size();
-        for(int i = 0; i < n; i++){
-            if(list.get(i).getUrl().equals(toCheck.getUrl())) {
+        for (int i = 0; i < n; i++) {
+            if (list.get(i).getUrl().equals(toCheck.getUrl())) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    final CharSequence[] items = {"Sports","India","Entertainment","Technology","Business","World","Scientific"};
+
+    final ArrayList<Integer> seletedItems = new ArrayList();
+
+    public void buildDialogBox() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select Type Of News You Like");
+        builder.setMultiChoiceItems(items, null,
+                new DialogInterface.OnMultiChoiceClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int indexSelected,
+                                        boolean isChecked) {
+                        if (isChecked) {
+                            seletedItems.add(indexSelected);
+                            //Toast.makeText(MainActivity.this, Integer.toString(indexSelected), Toast.LENGTH_SHORT).show();
+                        } else if (seletedItems.contains(indexSelected)) {
+                            seletedItems.remove(Integer.valueOf(indexSelected));
+                        }
+                    }
+                })
+
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        addToProperPlace(seletedItems);
+                        newsArrticles.clear();
+                        initViews();
+
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void addToProperPlace(ArrayList<Integer> seleted){
+        Map<String, Integer> source = readFromSdMap("ChooseUrNews/sources.dat");
+        for (int i = 0; i< seleted.size();i++){
+            if(seleted.get(i) == 0){
+                lis = "espn";
+                Integer num = source.get(lis);
+                if (num == null) {
+                    source.put(lis, 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                } else {
+                    source.put(lis, num + 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                }
+                lis = "the-sports-bible";
+                Integer num2 = source.get(lis);
+                if (num2 == null) {
+                    source.put(lis, 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                } else {
+                    source.put(lis, num2 + 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                }
+            }
+
+            if(seleted.get(i) == 1){
+                lis = "hindu";
+                Integer num = source.get(lis);
+                if (num == null) {
+                    source.put(lis, 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                } else {
+                    source.put(lis, num + 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                }
+                lis = "timesofindia";
+                Integer num2 = source.get(lis);
+                if (num2 == null) {
+                    source.put(lis, 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                } else {
+                    source.put(lis, num2 + 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                }
+            }
+
+            if(seleted.get(i) == 2){
+                lis = "entertainment-weekly";
+                Integer num = source.get(lis);
+                if (num == null) {
+                    source.put(lis, 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                } else {
+                    source.put(lis, num + 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                }
+                lis = "buzzfeed";
+                Integer num2 = source.get(lis);
+                if (num2 == null) {
+                    source.put(lis, 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                } else {
+                    source.put(lis, num2 + 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                }
+            }
+
+            if(seleted.get(i)==3){
+                lis = "hackernews";
+                Integer num = source.get(lis);
+                if (num == null) {
+                    source.put(lis, 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                } else {
+                    source.put(lis, num + 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                }
+                lis = "techradar";
+                Integer num2 = source.get(lis);
+                if (num2 == null) {
+                    source.put(lis, 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                } else {
+                    source.put(lis, num2 + 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                }
+                lis = "recode";
+                Integer num3 = source.get(lis);
+                if (num3 == null) {
+                    source.put(lis, 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                } else {
+                    source.put(lis, num3 + 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                }
+            }
+
+            if(seleted.get(i)==4){
+                lis = "the-wall-street-journal";
+                Integer num = source.get(lis);
+                if (num == null) {
+                    source.put(lis, 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                } else {
+                    source.put(lis, num + 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                }
+            }
+            if(seleted.get(i)==5){
+                lis = "bbc";
+                Integer num = source.get(lis);
+                if (num == null) {
+                    source.put(lis, 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                } else {
+                    source.put(lis, num + 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                }
+
+            }
+
+            if(seleted.get(i)==6){
+                lis = "scientist";
+                Integer num = source.get(lis);
+                if (num == null) {
+                    source.put(lis, 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                } else {
+                    source.put(lis, num + 10);
+                    saveToSDMap(source, "ChooseUrNews/sources.dat");
+                }
+            }
+        }
+        saveToSDMap(source,"ChooseUrNews/sources.dat");
     }
 
 
@@ -322,6 +516,14 @@ public class MainActivity extends AppCompatActivity {
         if(!checkPermission()) {
             requestPermission();
         }
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if(!prefs.getBoolean("firstTime", false)) {
+            buildDialogBox();
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("firstTime", true);
+            editor.commit();
+        }
+
         if(!isNetworkAvailable()){
             AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
             alert.setTitle("Internet");
@@ -331,7 +533,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         File path = Environment.getExternalStorageDirectory();
-        File dir = new File(String.valueOf(path)+"/ChooseUrNews");
+        File dir = new File(valueOf(path)+"/ChooseUrNews");
         if (!dir.exists()) {
             dir.mkdir();
             initViews();
@@ -549,7 +751,7 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<ArticlesResponse> call12, Throwable t) {
-                //.makeText(MainActivity.this, "Error Received 3", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Error Received", Toast.LENGTH_SHORT).show();
 
 
             }
@@ -956,13 +1158,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
-
             case R.id.bookmark:
                 if(!checkPermission())
                     requestPermission();
                 File path2 = Environment.getExternalStorageDirectory();
-                File dir2 = new File(String.valueOf(path2)+"/ChooseUrNews/bookmark.dat");
+                File dir2 = new File(valueOf(path2)+"/ChooseUrNews/bookmark.dat");
                 if(!dir2.exists()){
                     try {
                         dir2.createNewFile();
@@ -975,6 +1175,11 @@ public class MainActivity extends AppCompatActivity {
                         BookMarkActivity.class);
                 startActivity(myIntent2);
                 return true;
+
+            case R.id.settings:
+                buildDialogBox();
+                return true;
+
 
             default:
                 return super.onOptionsItemSelected(item);

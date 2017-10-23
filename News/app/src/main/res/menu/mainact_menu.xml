@@ -8,6 +8,12 @@
         android:title="Bookmark"
         app:showAsAction="always"
         />
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/pref"
+        android:title="Preferences"
+        app:showAsAction="always"
+        />
 
 
 </menu>
