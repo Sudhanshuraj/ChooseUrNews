@@ -135,7 +135,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
         int index = getIntent().getIntExtra(KEY_INDEX,-1);
         if(index != -1){
             updateNewsdetails(index);
-            //Toast.makeText(this, Integer.toString(NewsStore.getNewsArticles().get(index).getPriority()), Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, Integer.toString(NewsStore.getNewsArticles().get(index).getPriority()), Toast.LENGTH_SHORT).show();
 
         }
         else{

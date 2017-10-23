@@ -3,21 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="/home/sudhanshu/Desktop/News/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jar="/home/sudhanshu/Desktop/For Git/News/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="26.0.1"
-        sha1="ce98137a7125cae339725c7aa734b0b01b8459a7">
-        <dex dex="/home/sudhanshu/Desktop/News/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_471ebc94ec2cdd201905ce1595a600d7200c53c0/classes.dex" />
+        sha1="c7d3140352db5212417e23d52609b246e7a4031b">
+        <dex dex="/home/sudhanshu/Desktop/For Git/News/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_376e7cf2f4ed1c2fa6941bc873061ad2c7d8cb42/classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="/home/sudhanshu/Desktop/News/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jar="/home/sudhanshu/Desktop/For Git/News/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="26.0.1"
         sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="/home/sudhanshu/Desktop/News/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_2f53ee4c2b661dac312877398fb573ef25c97381/classes.dex" />
+        <dex dex="/home/sudhanshu/Desktop/For Git/News/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_7cb3b8e08174c6dbd8a3886751071d936b6c8870/classes.dex" />
     </item>
 
 </items>

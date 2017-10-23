@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
     //variable declaration
 
     private static final int PERMISSION_REQUEST_CODE = 1;
+    int count =1;
     private static final int testBox = 0;
     private RecyclerView newsRecyclerView;
     private Paint p = new Paint();
@@ -378,20 +379,22 @@ public class MainActivity extends AppCompatActivity {
                 lis = "espn";
                 Integer num = source.get(lis);
                 if (num == null) {
-                    source.put(lis, 10);
+                    source.put(lis, 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
                 } else {
-                    source.put(lis, num + 10);
+                    source.put(lis, num + 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
+                    //Toast.makeText(MainActivity.this,lis, Toast.LENGTH_SHORT).show();
                 }
                 lis = "the-sports-bible";
                 Integer num2 = source.get(lis);
                 if (num2 == null) {
-                    source.put(lis, 10);
+                    source.put(lis, 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
                 } else {
-                    source.put(lis, num2 + 10);
+                    source.put(lis, num2 + 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
+                    //Toast.makeText(MainActivity.this,lis, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -399,20 +402,22 @@ public class MainActivity extends AppCompatActivity {
                 lis = "hindu";
                 Integer num = source.get(lis);
                 if (num == null) {
-                    source.put(lis, 10);
+                    source.put(lis, 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
                 } else {
-                    source.put(lis, num + 10);
+                    source.put(lis, num + 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
+                    //Toast.makeText(MainActivity.this,lis, Toast.LENGTH_SHORT).show();
                 }
                 lis = "timesofindia";
                 Integer num2 = source.get(lis);
                 if (num2 == null) {
-                    source.put(lis, 10);
+                    source.put(lis, 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
                 } else {
-                    source.put(lis, num2 + 10);
+                    source.put(lis, num2 + 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
+                    //Toast.makeText(MainActivity.this,lis, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -420,20 +425,23 @@ public class MainActivity extends AppCompatActivity {
                 lis = "entertainment-weekly";
                 Integer num = source.get(lis);
                 if (num == null) {
-                    source.put(lis, 10);
+                    source.put(lis, 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
+                    //Toast.makeText(MainActivity.this,lis, Toast.LENGTH_SHORT).show();
                 } else {
-                    source.put(lis, num + 10);
+                    source.put(lis, num + 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
+                    //Toast.makeText(MainActivity.this,lis, Toast.LENGTH_SHORT).show();
                 }
                 lis = "buzzfeed";
                 Integer num2 = source.get(lis);
                 if (num2 == null) {
-                    source.put(lis, 10);
+                    source.put(lis, 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
                 } else {
-                    source.put(lis, num2 + 10);
+                    source.put(lis, num2 + 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
+                    //Toast.makeText(MainActivity.this,lis, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -441,29 +449,31 @@ public class MainActivity extends AppCompatActivity {
                 lis = "hackernews";
                 Integer num = source.get(lis);
                 if (num == null) {
-                    source.put(lis, 10);
+                    source.put(lis, 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
                 } else {
-                    source.put(lis, num + 10);
+                    source.put(lis, num + 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
                 }
                 lis = "techradar";
                 Integer num2 = source.get(lis);
                 if (num2 == null) {
-                    source.put(lis, 10);
+                    source.put(lis, 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
                 } else {
-                    source.put(lis, num2 + 10);
+                    source.put(lis, num2 + 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
+                    //Toast.makeText(MainActivity.this,lis, Toast.LENGTH_SHORT).show();
                 }
                 lis = "recode";
                 Integer num3 = source.get(lis);
                 if (num3 == null) {
-                    source.put(lis, 10);
+                    source.put(lis, 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
                 } else {
-                    source.put(lis, num3 + 10);
+                    source.put(lis, num3 + 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
+                    //Toast.makeText(MainActivity.this,lis, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -471,10 +481,10 @@ public class MainActivity extends AppCompatActivity {
                 lis = "the-wall-street-journal";
                 Integer num = source.get(lis);
                 if (num == null) {
-                    source.put(lis, 10);
+                    source.put(lis, 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
                 } else {
-                    source.put(lis, num + 10);
+                    source.put(lis, num + 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
                 }
             }
@@ -482,10 +492,10 @@ public class MainActivity extends AppCompatActivity {
                 lis = "bbc";
                 Integer num = source.get(lis);
                 if (num == null) {
-                    source.put(lis, 10);
+                    source.put(lis, 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
                 } else {
-                    source.put(lis, num + 10);
+                    source.put(lis, num + 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
                 }
 
@@ -495,15 +505,17 @@ public class MainActivity extends AppCompatActivity {
                 lis = "scientist";
                 Integer num = source.get(lis);
                 if (num == null) {
-                    source.put(lis, 10);
+                    source.put(lis, 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
                 } else {
-                    source.put(lis, num + 10);
+                    source.put(lis, num + 10*count);
                     saveToSDMap(source, "ChooseUrNews/sources.dat");
+                    //Toast.makeText(MainActivity.this,lis, Toast.LENGTH_SHORT).show();
                 }
             }
         }
         saveToSDMap(source,"ChooseUrNews/sources.dat");
+        seleted.clear();
     }
 
 
@@ -1178,6 +1190,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.settings:
                 buildDialogBox();
+                count++;
                 return true;
 
 
