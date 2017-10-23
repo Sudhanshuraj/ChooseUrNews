@@ -36,6 +36,7 @@ public class Article implements Serializable{
 
     private Integer priority ;
 
+
     public String getAuthor() {
         return author;
     }

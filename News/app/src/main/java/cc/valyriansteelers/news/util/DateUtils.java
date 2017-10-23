@@ -12,12 +12,15 @@ public class DateUtils {
 
     public static String formatNewsApiDAte(String inputdate){
 
-        String aa=inputdate+"asas";
-        if(aa.equals("nullasas"))return "Time Not Available";
+
+        if(inputdate==null)return "Time Not Available";
         else
         try{
+            if(inputdate.length()>20){
+                inputdate = inputdate.substring(0,19)+"Z";
+            }
             String inputDateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-            String outputDateFormat= "EEE, d MMM yyyy KK:mm";
+            String outputDateFormat= "EEE, d MMM HH:mm";
             SimpleDateFormat inputFormat = new SimpleDateFormat(inputDateFormat);
             SimpleDateFormat outputFormat = new SimpleDateFormat(outputDateFormat);
 

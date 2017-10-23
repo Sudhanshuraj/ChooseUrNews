@@ -23,7 +23,7 @@
                 android:scaleType="centerCrop"
                 app:layout_aspectRatio="178%"
                 app:layout_widthPercent="100%"
-                tools:src="@drawable/sample" />
+                 />
 
         </android.support.percent.PercentRelativeLayout>
 

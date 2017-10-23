@@ -1,6 +1,7 @@
 package cc.valyriansteelers.news;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -9,11 +10,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -81,7 +85,15 @@ public class MainActivity extends AppCompatActivity {
 
     //--------------------------------------------------------
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return (activeNetworkInfo != null) && activeNetworkInfo.isConnected();
+    }
 
+
+    /**Background Task of calculating estimated time of reading of an article*/
     private class MyTask extends AsyncTask<Article, Void, Article> {
         String textResult;
         @Override
@@ -111,18 +123,20 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
                 textResult = e.toString();
             }
-            int count = 0;
+            float count = 0;
             try {
                 count = countWords(textResult);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             if(count<300){
-                arc.setEstimatedTime( "less than 1 min read" );
+                arc.setEstimatedTime( "1 min read" );
             }
              else{
-                arc.setEstimatedTime(Integer.toString(count/300) + " min read" );
+                int tont = Math.round(count/300);
+                arc.setEstimatedTime(Integer.toString(tont) + " min read" );
             }
+
             return arc;
 
         }
@@ -140,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
         return text.split(" ").length;
     }
 
+    /**Checks whether permission is granted to read and write on storage*/
     private boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (result == PackageManager.PERMISSION_GRANTED) {
@@ -149,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**If Read and Write Permission isn't granted then it asks for permission*/
     private void requestPermission() {
 
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
@@ -165,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**Function for saving Array of NewsArticles on Storage*/
     void saveToSD(ArrayList<Article> articles,String dest) {
 
         if (isExternalStorageWritable()) {
@@ -190,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**Function for saving Map of some data on Storage*/
     void saveToSDMap(Map<String, Integer> source,String dest) {
 
         if (isExternalStorageWritable()) {
@@ -215,9 +233,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
-     public static ArrayList<Article> readFromSd(String dest) {
+    /**Function for reading Array of NewsArticles from Storage*/
+    public static ArrayList<Article> readFromSd(String dest) {
 
         ArrayList<Article> savedArrayList = new ArrayList<>();
         if(isExternalStorageWritable()) {
@@ -251,6 +268,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**Function for reading Map of some data from Storage*/
     public static Map<String ,Integer> readFromSdMap(String dest) {
 
         Map<String,Integer> source = new HashMap<String, Integer>();
@@ -295,7 +313,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -304,6 +321,13 @@ public class MainActivity extends AppCompatActivity {
 
         if(!checkPermission()) {
             requestPermission();
+        }
+        if(!isNetworkAvailable()){
+            AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+            alert.setTitle("Internet");
+            alert.setMessage("Not Available");
+            alert.setPositiveButton("OK",null);
+            alert.show();
         }
 
         File path = Environment.getExternalStorageDirectory();
@@ -332,11 +356,21 @@ public class MainActivity extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                newsArrticles.clear();
-                NewsStore.newsArticles.clear();
-                initViews();
+                if(!isNetworkAvailable()){
+                    AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+                    alert.setTitle("Internet");
+                    alert.setMessage("Not Available");
+                    alert.setPositiveButton("OK",null);
+                    alert.show();
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+                else {
+                    newsArrticles.clear();
+                    NewsStore.newsArticles.clear();
+                    initViews();
 
-                mSwipeRefreshLayout.setRefreshing(false);
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
 
             }
         });
@@ -346,6 +380,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**Function for getting response from sources and setting up the UI*/
     private void initViews(){
         newsRecyclerView =  (RecyclerView) findViewById(R.id.activity_main_recyclerview);
         newsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -409,7 +444,7 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<ArticlesResponse> call4, Throwable t) {
-                Toast.makeText(MainActivity.this, "Error Received 4", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Error Received 4", Toast.LENGTH_SHORT).show();
 
 
             }
@@ -424,7 +459,7 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<ArticlesResponse> call5, Throwable t) {
-                Toast.makeText(MainActivity.this, "Error Received 3", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(MainActivity.this, "Error Received 3", Toast.LENGTH_SHORT).show();
 
 
             }
@@ -454,7 +489,7 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<ArticlesResponse> call7, Throwable t) {
-                Toast.makeText(MainActivity.this, "Error Received", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Error Received", Toast.LENGTH_SHORT).show();
 
 
             }
@@ -499,7 +534,7 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<ArticlesResponse> call11, Throwable t) {
-                //.makeText(MainActivity.this, "Error Received 3", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Error Received 3", Toast.LENGTH_SHORT).show();
 
 
             }
@@ -520,12 +555,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Call<ArticlesResponse> call13 = NewsAPI.getApi().getArticles("reddit-r-all", "top");
+        Call<ArticlesResponse> call13 = NewsAPI.getApi().getArticles("buzzfeed", "top");
         call13.enqueue(new Callback<ArticlesResponse>() {
             @Override
             public void onResponse(Call<ArticlesResponse> call13, Response<ArticlesResponse> response) {
                 ArticlesResponse articlesResponse = response.body();
-                NewsStore.addArticle(articlesResponse.getArticles(),"reddit-r-all");
+                NewsStore.addArticle(articlesResponse.getArticles(),"buzzfeed");
             }
             @Override
             public void onFailure(Call<ArticlesResponse> call13, Throwable t) {
@@ -575,6 +610,9 @@ public class MainActivity extends AppCompatActivity {
 
                     if(time!=null) {
                         try {
+                            if(time.length()>20){
+                                time = time.substring(0,19)+"Z";
+                            }
                             String inputDateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'";
                             String outputDateFormat= "EEE, d MMM yyyy HH:mm";
                             SimpleDateFormat inputFormat = new SimpleDateFormat(inputDateFormat);
@@ -639,13 +677,15 @@ public class MainActivity extends AppCompatActivity {
                 homeNewsAdapter.addHomeNewsAdapter(newsArrticles);
                 homeNewsAdapter.notifyDataSetChanged();
                 newsRecyclerView.setAdapter(homeNewsAdapter);
-                for(int i = 0 ;i < NewsStore.newsArticles.size(); i++){
-                    new MyTask().execute(NewsStore.newsArticles.get(i));
-                    homeNewsAdapter.modifyadapter(NewsStore.newsArticles.get(i),i);
-                    homeNewsAdapter.notifyItemChanged(i);
-                    homeNewsAdapter.notifyDataSetChanged();
-                    newsRecyclerView.setAdapter(homeNewsAdapter);
-                }
+                        for(int i = 0 ;i < NewsStore.newsArticles.size(); i++){
+                            new MyTask().execute(NewsStore.newsArticles.get(i));
+                            NewsStore.modify(newsArrticles.get(i),i);
+                            homeNewsAdapter.modifyadapter(NewsStore.newsArticles.get(i),i);
+                            homeNewsAdapter.notifyItemChanged(i);
+                            homeNewsAdapter.notifyDataSetChanged();
+                            newsRecyclerView.setAdapter(homeNewsAdapter);
+                        }
+
 
             }
             @Override
@@ -669,6 +709,9 @@ public class MainActivity extends AppCompatActivity {
 
                     if (time != null) {
                         try {
+                            if(time.length()>20){
+                                time = time.substring(0,19)+"Z";
+                            }
                             String inputDateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'";
                             String outputDateFormat = "EEE, d MMM yyyy HH:mm";
                             SimpleDateFormat inputFormat = new SimpleDateFormat(inputDateFormat);
@@ -744,9 +787,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
-    public void afterSwipe(Article article){
+    /**Alters the data stored when user likes*/
+    public void afterLike(Article article){
         String lis = article.getSourcename();
         Map<String, Integer> source = readFromSdMap("ChooseUrNews/sources.dat");
         Integer num = source.get(lis);
@@ -779,9 +821,43 @@ public class MainActivity extends AppCompatActivity {
         saveToSDMap(frequency, "ChooseUrNews/freq.dat");
     }
 
+    /**Alters the data stored when user dislikes*/
+    public void afterDislike(Article article){
+        String lis = article.getSourcename();
+        Map<String, Integer> source = readFromSdMap("ChooseUrNews/sources.dat");
+        Integer num = source.get(lis);
+        if (num == null) {
+            source.put(lis, -1);
+            saveToSDMap(source, "ChooseUrNews/sources.dat");
+        } else {
+            source.put(lis, num - 1);
+            saveToSDMap(source, "ChooseUrNews/sources.dat");
+        }
 
+        String title = article.getTitle();
+        StringTokenizer hello = new StringTokenizer(title.toLowerCase()," ,!-");
+        Map<String, Integer> frequency = readFromSdMap("ChooseUrNews/freq.dat");
+
+        while (hello.hasMoreTokens()) {
+            String nw = hello.nextToken();
+            if (stop.contains(nw)) {
+                continue;
+            }
+            if (frequency.containsKey(nw)) {
+                int i = frequency.get(nw);
+                frequency.put(nw, i - 1);
+            }
+            else {
+                frequency.put(nw, -1);
+            }
+        }
+
+        saveToSDMap(frequency, "ChooseUrNews/freq.dat");
+    }
+
+    /**Function for initializing swipe feature*/
     private void initSwipe() {
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT ) {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -792,7 +868,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
 
-                if(direction == ItemTouchHelper.LEFT) {
+                if(direction == ItemTouchHelper.RIGHT) {
 
 
                     ArrayList<Article> ls = readFromSd("ChooseUrNews/like.dat");
@@ -802,7 +878,7 @@ public class MainActivity extends AppCompatActivity {
                     else {
                         ls.add(newsArrticles.get(position));
                         saveToSD(ls, "ChooseUrNews/like.dat");
-                        afterSwipe(newsArrticles.get(position));
+                        afterLike(newsArrticles.get(position));
 
                     }
 
@@ -813,23 +889,54 @@ public class MainActivity extends AppCompatActivity {
                     homeNewsAdapter.notifyDataSetChanged();
                 }
 
+                if(direction == ItemTouchHelper.LEFT){
+                    ArrayList<Article> ls = readFromSd("ChooseUrNews/like.dat");
+                    if (isPresent(ls, newsArrticles.get(position))) {
+                        Toast.makeText(MainActivity.this, "Already DisLiked", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        ls.add(newsArrticles.get(position));
+                        saveToSD(ls, "ChooseUrNews/like.dat");
+                        afterDislike(newsArrticles.get(position));
+
+                    }
+
+                    newsArrticles.remove(newsArrticles.get(position));
+                    saveToSD(newsArrticles,"ChooseUrNews/data.dat");
+                    NewsStore.setArticle(newsArrticles);
+                    homeNewsAdapter.notifyItemRemoved(position);
+                    homeNewsAdapter.notifyDataSetChanged();
+
+                }
+
             }
 
             public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
 
                 Bitmap icon;
                 if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-
                     View itemView = viewHolder.itemView;
                     float height = (float) itemView.getBottom() - (float) itemView.getTop();
                     float width = height / 3;
 
+
+                    if(dX < 0) {
+
                         p.setColor(Color.parseColor("#000000"));
                         RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom());
                         c.drawRect(background, p);
-                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.thumsup);
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.thumsdown);
                         RectF icon_dest = new RectF((float) itemView.getRight() - 2 * width, (float) itemView.getTop() + width, (float) itemView.getRight() - width, (float) itemView.getBottom() - width);
                         c.drawBitmap(icon, null, icon_dest, p);
+                    }
+                    else {
+                        p.setColor(Color.parseColor("#000000"));
+                        RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), dX,(float) itemView.getBottom());
+                        c.drawRect(background,p);
+                        icon = BitmapFactory.decodeResource(getResources(), R.drawable.thumbsup);
+                        RectF icon_dest = new RectF((float) itemView.getLeft() + width ,(float) itemView.getTop() + width,(float) itemView.getLeft()+ 2*width,(float)itemView.getBottom() - width);
+                        c.drawBitmap(icon,null,icon_dest,p);
+                    }
                 }
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }

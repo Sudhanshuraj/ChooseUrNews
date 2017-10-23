@@ -40,5 +40,9 @@ public class NewsStore {
         }
     }
 
+    public static void modify(Article arc, int index){
+        newsArticles.set(index,arc);
+    }
+
 
 }

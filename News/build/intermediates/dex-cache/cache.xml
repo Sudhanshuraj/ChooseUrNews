@@ -7,17 +7,8 @@
         jumboMode="true"
         optimize="true"
         revision="26.0.1"
-        sha1="e7150bd2cd76452f68dc618e72ee39e1abc753f0">
+        sha1="ce98137a7125cae339725c7aa734b0b01b8459a7">
         <dex dex="/home/sudhanshu/Desktop/News/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_471ebc94ec2cdd201905ce1595a600d7200c53c0/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/home/sudhanshu/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.10.3/b842f960942503cf1abbcc8c173a7f2c19d43726/jsoup-1.10.3.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.1"
-        sha1="b842f960942503cf1abbcc8c173a7f2c19d43726">
-        <dex dex="/home/sudhanshu/Desktop/News/app/build/intermediates/transforms/dex/debug/folders/1000/10/jsoup-1.10.3_816b39cd8ba1f1d19ce22484e01f3003101fdc7d/classes.dex" />
     </item>
     <item
         is-multidex="true"
