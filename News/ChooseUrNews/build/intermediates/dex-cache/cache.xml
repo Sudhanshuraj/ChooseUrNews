@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/home/sudhanshu/Downloads/Valyrian Steelers/160050041_160050044_160050070/codes_uncategorized/ChooseUrNews/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/home/sudhanshu/Downloads/Valyrian Steelers/160050041_160050044_160050070/codes_uncategorized/ChooseUrNews/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_61af3dcbfbb0594f20d881e98a91b1e7a1a5ae4d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/sudhanshu/Downloads/Valyrian Steelers/160050041_160050044_160050070/codes_uncategorized/ChooseUrNews/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="745c9a91c582872b53a05a7e0b788638c1fdeccc">
+        <dex dex="/home/sudhanshu/Downloads/Valyrian Steelers/160050041_160050044_160050070/codes_uncategorized/ChooseUrNews/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_112bcacf319835bfd63a12626c9f370bb7678a6e/classes.dex" />
+    </item>
+
+</items>
